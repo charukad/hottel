@@ -1,0 +1,105 @@
+.rooms-section {
+  background: linear-gradient(180deg, rgba(184, 230, 184, 0.1) 0%, var(--cream) 100%);
+}
+
+.rooms-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.room-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.room-image {
+  position: relative;
+  height: 220px;
+  overflow: hidden;
+}
+
+.room-image img,
+.room-placeholder {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.room-type-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: var(--green-deep);
+  color: white;
+  padding: 0.35rem 0.85rem;
+  border-radius: 50px;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+
+.room-body {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.room-body h3 {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  color: var(--green-dark);
+  margin-bottom: 0.5rem;
+}
+
+.room-desc {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  flex: 1;
+}
+
+.room-features {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.room-features li {
+  background: rgba(144, 238, 144, 0.25);
+  color: var(--green-dark);
+  padding: 0.25rem 0.65rem;
+  border-radius: 50px;
+  font-size: 0.75rem;
+}
+
+.room-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(74, 124, 89, 0.15);
+}
+
+.room-price {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--green-dark);
+}
+
+.room-price small {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+.room-footer .btn {
+  padding: 0.6rem 1.25rem;
+  font-size: 0.85rem;
+}
