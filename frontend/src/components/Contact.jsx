@@ -2,7 +2,7 @@ import { useState } from 'react';
 import toast from 'react-hot-toast';
 import './Contact.css';
 
-const WHATSAPP_NUMBER = '94771234567';
+const WHATSAPP_NUMBER = '94710743192';
 const EMAIL = 'info@mountainbreezevilla.com';
 
 const Contact = () => {
