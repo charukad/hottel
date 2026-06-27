@@ -17,10 +17,6 @@
   background: var(--cream);
 }
 
-[data-theme='dark'] .navbar-scrolled {
-  background: rgba(26, 36, 28, 0.95);
-}
-
 [data-theme='dark'] .form-group input,
 [data-theme='dark'] .form-group select,
 [data-theme='dark'] .form-group textarea {

@@ -23,6 +23,12 @@ const slides = [
     placeholder: 'Add: Lush green tea plantation panorama',
   },
   {
+    id: 5,
+    image: '/images/hero-tea-plantation2.jpg',
+    alt: 'Tea plantation near Ella',
+    placeholder: 'Add: Lush green tea plantation panorama',
+  },
+  {
     id: 3,
     image: '/images/hero-nature-retreat.jpg',
     alt: 'Peaceful nature retreat in Sri Lanka',
