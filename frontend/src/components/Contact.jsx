@@ -74,17 +74,17 @@ const Contact = () => {
             </div>
 
             <div className="contact-map card">
-              <iframe
-                title="Mountain Breeze Villa Location - Ella, Sri Lanka"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126746.09787798738!2d80.990953!3d6.866667!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae463aa1f2d79d1%3A0xf053216625b16469!2sElla%2C%20Sri%20Lanka!5e0!3m2!1sen!2s!4v1700000000000!5m2!1sen!2s"
-                width="100%"
-                height="280"
-                style={{ border: 0, borderRadius: '12px' }}
-                allowFullScreen=""
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-              />
-            </div>
+  <iframe
+    title="Mountain Breeze Villa Location - Ella, Sri Lanka"
+    src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d126758.4341493781!2d81.0433726!3d6.8664928000000005!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2s!5e0!3m2!1sen!2slk!4v1782575204348!5m2!1sen!2slk"
+    width="100%"
+    height="280"
+    style={{ border: 0, borderRadius: "12px" }}
+    allowFullScreen
+    loading="lazy"
+    referrerPolicy="strict-origin-when-cross-origin"
+  />
+</div>
           </div>
 
           <form className="booking-form card" onSubmit={handleSubmit}>

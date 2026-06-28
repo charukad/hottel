@@ -12,9 +12,11 @@ const About = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
         >
-          <div className="image-placeholder about-placeholder">
-            Add: Villa garden or eco-friendly interior
-          </div>
+          <img
+            src="/images/MountainBreeze.jpg"
+            alt="Mountain Breeze Villa, Ella"
+            className="about-img"
+          />
         </motion.div>
 
         <motion.div
