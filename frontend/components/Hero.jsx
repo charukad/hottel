@@ -20,7 +20,7 @@ const slides = [
 
   {
     id: 4,
-    image: '/images/hero-tea-plantation1.jpg',
+    image: '/images/MountainBreeze.jpg',
     alt: 'Tea plantation near Ella',
     placeholder: 'Add: Lush green tea plantation panorama',
   },
