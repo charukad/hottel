@@ -7,7 +7,7 @@ Eco-friendly luxury hotel website for **Mountain Breeze Villa, Ella, Sri Lanka**
 ```
 MountainBreezeVilla/
 ├── backend/     # Node.js + Express + MongoDB API
-├── frontend/    # Public React website 
+├── frontend/    # Next.js public website (SSR)
 └── admin/       # Admin panel React app 
 ```
 
@@ -27,3 +27,14 @@ npm install
 npm run create-admin   # Creates admin user + seeds 4 rooms
 npm run dev            # Starts API on http://localhost:5000
 ```
+
+### 2. Frontend (Next.js)
+
+```bash
+cd frontend
+cp .env.example .env.local
+npm install
+npm run dev            # Starts site on http://localhost:3000
+```
+
+The home page fetches rooms and events on the server (SSR) from the backend API. Set `API_URL` in `.env.local` if your API is not at `http://localhost:5000/api`.

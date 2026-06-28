@@ -1,7 +1,6 @@
-import { useState, useEffect } from 'react';
+'use client';
+
 import { motion } from 'framer-motion';
-import api from '../api/axios';
-import LoadingSpinner from './LoadingSpinner';
 import './Events.css';
 
 const formatDate = (dateStr) => {
@@ -13,40 +12,8 @@ const formatDate = (dateStr) => {
   });
 };
 
-const Events = () => {
-  const [events, setEvents] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const { data } = await api.get('/events');
-        const upcoming = data.filter(
-          (e) => new Date(e.date) >= new Date(new Date().setHours(0, 0, 0, 0))
-        );
-        setEvents(upcoming.length ? upcoming : data);
-      } catch {
-        setError('Unable to load events at the moment.');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchEvents();
-  }, []);
-
-  if (loading) {
-    return (
-      <section id="events" className="events-section">
-        <div className="container">
-          <LoadingSpinner fullScreen />
-        </div>
-      </section>
-    );
-  }
-
-  if (error || events.length === 0) {
+const Events = ({ events = [] }) => {
+  if (events.length === 0) {
     return null;
   }
 

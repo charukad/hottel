@@ -12,8 +12,8 @@
   --shadow: 0 4px 24px rgba(45, 90, 61, 0.12);
   --shadow-hover: 0 12px 40px rgba(45, 90, 61, 0.18);
   --radius: 16px;
-  --font-display: 'Cormorant Garamond', Georgia, serif;
-  --font-body: 'Outfit', system-ui, sans-serif;
+  --font-display: var(--font-cormorant), Georgia, serif;
+  --font-body: var(--font-outfit), system-ui, sans-serif;
   --transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 

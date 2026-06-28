@@ -1,13 +1,11 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Toaster } from 'react-hot-toast';
-import Home from './pages/Home';
+'use client';
 
-const App = () => {
+import { Toaster } from 'react-hot-toast';
+
+const Providers = ({ children }) => {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-      </Routes>
+    <>
+      {children}
       <Toaster
         position="bottom-right"
         toastOptions={{
@@ -18,8 +16,8 @@ const App = () => {
           },
         }}
       />
-    </BrowserRouter>
+    </>
   );
 };
 
-export default App;
+export default Providers;
