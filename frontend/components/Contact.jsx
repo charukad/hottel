@@ -76,16 +76,19 @@ const Contact = () => {
             </div>
 
             <div className="contact-map card">
-  <iframe
-    title="Mountain Breeze Villa Location - Ella, Sri Lanka"
-    src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d126758.4341493781!2d81.0433726!3d6.8664928000000005!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2s!5e0!3m2!1sen!2slk!4v1782575204348!5m2!1sen!2slk"
-    width="100%"
-    height="280"
-    style={{ border: 0, borderRadius: "12px" }}
-    allowFullScreen
-    loading="lazy"
-    referrerPolicy="strict-origin-when-cross-origin"
-  />
+            <iframe
+  title="Mountain Breeze Villa Location"
+  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.6639558508577!2d81.0418814!3d6.9307091!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae46302a36714eb%3A0xed85eb8b9de667a8!2sMountain%20Breeze%20Villa!5e0!3m2!1sen!2slk!4v1782627947723!5m2!1sen!2slk"
+  width="100%"
+  height="280"
+  style={{
+    border: 0,
+    borderRadius: "12px",
+  }}
+  allowFullScreen
+  loading="lazy"
+  referrerPolicy="strict-origin-when-cross-origin"
+/>
 </div>
           </div>
 
