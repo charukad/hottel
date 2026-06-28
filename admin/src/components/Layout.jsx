@@ -28,6 +28,9 @@ const Layout = ({ children }) => {
           <NavLink to="/events" className={({ isActive }) => (isActive ? 'active' : '')}>
             Events
           </NavLink>
+          <NavLink to="/gallery" className={({ isActive }) => (isActive ? 'active' : '')}>
+            Gallery
+          </NavLink>
         </nav>
         <div className="sidebar-footer">
           <p>Signed in as <strong>{admin?.username}</strong></p>

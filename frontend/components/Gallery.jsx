@@ -3,18 +3,27 @@
 import { motion } from 'framer-motion';
 import './Gallery.css';
 
-const galleryImages = [
-  { src: '/images/gallery-1.jpg', alt: 'Villa exterior', placeholder: 'Villa exterior at sunrise' },
-  { src: '/images/gallery-2.jpg', alt: 'Mountain view', placeholder: 'Panoramic Ella mountain view' },
-  { src: '/images/gallery-3.jpg', alt: 'Room interior', placeholder: 'Cozy room interior' },
-  { src: '/images/gallery-4.jpg', alt: 'Garden', placeholder: 'Villa garden with flowers' },
-  { src: '/images/gallery-5.jpg', alt: 'Dining area', placeholder: 'Outdoor dining area' },
-  { src: '/images/gallery-6.jpg', alt: 'Sunset', placeholder: 'Sunset over the hills' },
-  { src: '/images/gallery-7.jpg', alt: 'Tea fields', placeholder: 'Nearby tea fields' },
-  { src: '/images/gallery-8.jpg', alt: 'Nature path', placeholder: 'Forest nature path' },
+const fixedGalleryImages = [
+  { id: 'fixed-1', src: '/images/gallery-1.jpg', alt: 'Villa exterior', placeholder: 'Villa exterior at sunrise', isFixed: true },
+  { id: 'fixed-2', src: '/images/gallery-2.jpg', alt: 'Mountain view', placeholder: 'Panoramic Ella mountain view', isFixed: true },
+  { id: 'fixed-3', src: '/images/gallery-3.jpg', alt: 'Room interior', placeholder: 'Cozy room interior', isFixed: true },
+  { id: 'fixed-4', src: '/images/gallery-4.jpg', alt: 'Garden', placeholder: 'Villa garden with flowers', isFixed: true },
+  { id: 'fixed-5', src: '/images/gallery-5.jpg', alt: 'Dining area', placeholder: 'Outdoor dining area', isFixed: true },
+  { id: 'fixed-6', src: '/images/gallery-6.jpg', alt: 'Sunset', placeholder: 'Sunset over the hills', isFixed: true },
+  { id: 'fixed-7', src: '/images/gallery-7.jpg', alt: 'Tea fields', placeholder: 'Nearby tea fields', isFixed: true },
+  { id: 'fixed-8', src: '/images/gallery-8.jpg', alt: 'Nature path', placeholder: 'Forest nature path', isFixed: true },
 ];
 
-const Gallery = () => {
+const Gallery = ({ additionalImages = [] }) => {
+  const adminImages = additionalImages.map((image) => ({
+    id: image._id,
+    src: image.imageUrl,
+    alt: image.alt,
+    placeholder: image.alt,
+  }));
+
+  const galleryImages = [...fixedGalleryImages, ...adminImages];
+
   return (
     <section id="gallery" className="gallery-section">
       <div className="container">
@@ -29,7 +38,7 @@ const Gallery = () => {
         <div className="gallery-grid">
           {galleryImages.map((item, index) => (
             <motion.div
-              key={item.src}
+              key={item.id}
               className={`gallery-item ${index === 0 ? 'gallery-item-large' : ''}`}
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
@@ -46,7 +55,7 @@ const Gallery = () => {
                 }}
               />
               <div className="image-placeholder gallery-placeholder" style={{ display: 'none' }}>
-                Add: {item.placeholder}
+                {item.isFixed ? `Add: ${item.placeholder}` : item.placeholder}
               </div>
             </motion.div>
           ))}

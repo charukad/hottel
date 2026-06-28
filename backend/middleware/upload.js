@@ -12,16 +12,6 @@ if (!fs.existsSync(uploadDir)) {
   fs.mkdirSync(uploadDir, { recursive: true });
 }
 
-const storage = multer.diskStorage({
-  destination: (_req, _file, cb) => {
-    cb(null, uploadDir);
-  },
-  filename: (_req, file, cb) => {
-    const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
-    cb(null, `event-${uniqueSuffix}${path.extname(file.originalname)}`);
-  },
-});
-
 const fileFilter = (_req, file, cb) => {
   const allowed = /jpeg|jpg|png|webp|gif/;
   const ext = allowed.test(path.extname(file.originalname).toLowerCase());
@@ -34,10 +24,30 @@ const fileFilter = (_req, file, cb) => {
   }
 };
 
-export const upload = multer({
-  storage,
+const createStorage = (prefix) =>
+  multer.diskStorage({
+    destination: (_req, _file, cb) => {
+      cb(null, uploadDir);
+    },
+    filename: (_req, file, cb) => {
+      const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
+      cb(null, `${prefix}-${uniqueSuffix}${path.extname(file.originalname)}`);
+    },
+  });
+
+const uploadOptions = {
   limits: { fileSize: 5 * 1024 * 1024 },
   fileFilter,
+};
+
+export const upload = multer({
+  storage: createStorage('event'),
+  ...uploadOptions,
+});
+
+export const galleryUpload = multer({
+  storage: createStorage('gallery'),
+  ...uploadOptions,
 });
 
 export const getImageUrl = (req, filename) => {

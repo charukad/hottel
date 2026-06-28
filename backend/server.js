@@ -7,8 +7,10 @@ import connectDB from './config/db.js';
 import authRoutes from './routes/auth.js';
 import eventRoutes from './routes/events.js';
 import roomRoutes from './routes/rooms.js';
+import galleryRoutes from './routes/gallery.js';
 import Event from './models/Event.js';
 import Room from './models/Room.js';
+import Gallery from './models/Gallery.js';
 
 dotenv.config();
 
@@ -22,6 +24,7 @@ const allowedOrigins = [
   process.env.ADMIN_URL,
   'http://localhost:5173',
   'http://localhost:5174',
+  'http://localhost:3000',
 ].filter(Boolean);
 
 app.use(
@@ -44,6 +47,7 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.use('/api/admin', authRoutes);
 app.use('/api/events', eventRoutes);
 app.use('/api/rooms', roomRoutes);
+app.use('/api/gallery', galleryRoutes);
 
 app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok', message: 'Mountain Breeze Villa API is running' });
@@ -51,11 +55,12 @@ app.get('/api/health', (_req, res) => {
 
 app.get('/api/stats', async (_req, res) => {
   try {
-    const [roomCount, eventCount] = await Promise.all([
+    const [roomCount, eventCount, galleryCount] = await Promise.all([
       Room.countDocuments(),
       Event.countDocuments(),
+      Gallery.countDocuments(),
     ]);
-    res.json({ roomCount, eventCount });
+    res.json({ roomCount, eventCount, galleryCount });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

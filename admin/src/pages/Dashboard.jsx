@@ -4,7 +4,7 @@ import Layout from '../components/Layout';
 import './Dashboard.css';
 
 const Dashboard = () => {
-  const [stats, setStats] = useState({ roomCount: 0, eventCount: 0 });
+  const [stats, setStats] = useState({ roomCount: 0, eventCount: 0, galleryCount: 0 });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -13,7 +13,7 @@ const Dashboard = () => {
         const { data } = await api.get('/stats');
         setStats(data);
       } catch {
-        setStats({ roomCount: 4, eventCount: 0 });
+        setStats({ roomCount: 4, eventCount: 0, galleryCount: 0 });
       } finally {
         setLoading(false);
       }
@@ -44,14 +44,21 @@ const Dashboard = () => {
               <p>Active Events</p>
             </div>
           </div>
+          <div className="stat-card card">
+            <span className="stat-icon">🖼️</span>
+            <div>
+              <h2>{stats.galleryCount}</h2>
+              <p>Gallery Uploads</p>
+            </div>
+          </div>
         </div>
 
         <div className="dashboard-info card">
           <h3>Quick Guide</h3>
           <ul>
             <li>Go to <strong>Events</strong> to create, edit, or delete events</li>
-            <li>Events appear on the public website automatically after saving</li>
-            <li>Upload event images when creating or editing events</li>
+            <li>Go to <strong>Gallery</strong> to add extra photos alongside the fixed website gallery</li>
+            <li>Events and gallery uploads appear on the public website automatically after saving</li>
             <li>Room prices are managed via the database seed (future: room editor)</li>
           </ul>
         </div>

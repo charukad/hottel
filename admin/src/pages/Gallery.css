@@ -1,0 +1,69 @@
+.gallery-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.gallery-header h1 {
+  font-size: 1.75rem;
+  color: var(--green-dark);
+}
+
+.gallery-header p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  max-width: 560px;
+  margin-top: 0.35rem;
+}
+
+.gallery-grid-admin {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1.25rem;
+}
+
+.gallery-admin-card {
+  padding: 0;
+  overflow: hidden;
+}
+
+.gallery-admin-thumb {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.gallery-admin-body {
+  padding: 1rem;
+}
+
+.gallery-admin-alt {
+  font-size: 0.9rem;
+  color: var(--text);
+  margin-bottom: 0.35rem;
+}
+
+.gallery-admin-order {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 0.75rem;
+}
+
+.gallery-admin-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem;
+}
+
+.empty-state p {
+  color: var(--text-muted);
+  margin-bottom: 1.5rem;
+}

@@ -51,3 +51,19 @@ export async function fetchRooms() {
     return [];
   }
 }
+
+export async function fetchGalleryImages() {
+  try {
+    const res = await fetch(`${API_URL}/gallery`, {
+      cache: 'no-store',
+    });
+
+    if (!res.ok) {
+      return [];
+    }
+
+    return await res.json();
+  } catch {
+    return [];
+  }
+}
