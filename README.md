@@ -38,3 +38,4 @@ npm run dev            # Starts site on http://localhost:3000
 ```
 
 The home page fetches rooms and events on the server (SSR) from the backend API. Set `API_URL` in `.env.local` if your API is not at `http://localhost:5000/api`.
+# hottel
