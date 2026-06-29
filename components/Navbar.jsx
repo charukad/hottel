@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import './Navbar.css';
 
@@ -63,7 +64,15 @@ const Navbar = () => {
       >
         <div className="navbar-inner container">
           <a href="#home" className="navbar-logo">
-            <img src="/images/logo.png" alt="Mountain Breeze Villa" className="navbar-logo-img" />
+            <Image 
+              src="/images/logo.png" 
+              alt="Mountain Breeze Villa" 
+              width={160} 
+              height={45} 
+              className="navbar-logo-img"
+              style={{ objectFit: 'contain' }}
+              priority
+            />
           </a>
 
           <ul className={`navbar-links ${menuOpen ? 'open' : ''}`}>

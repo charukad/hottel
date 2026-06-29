@@ -2,6 +2,7 @@
 
 import { useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
+import Image from 'next/image';
 import ScrollReveal from './ui/ScrollReveal';
 import './Activities.css';
 
@@ -75,9 +76,12 @@ const Activities = () => {
               whileHover={{ y: -8 }}
             >
               <div className="activity-image">
-                <img
+                <Image
                   src={activity.image}
                   alt={activity.title}
+                  fill
+                  sizes="(max-width: 768px) 100vw, 340px"
+                  style={{ objectFit: 'cover' }}
                   onError={(e) => {
                     e.target.style.display = 'none';
                     e.target.nextSibling.style.display = 'flex';

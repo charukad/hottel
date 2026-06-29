@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import ScrollReveal from './ui/ScrollReveal';
 import './Events.css';
 
@@ -39,7 +40,13 @@ const Events = ({ events = [] }) => {
               >
                 <div className="event-image">
                   {event.imageUrl ? (
-                    <img src={event.imageUrl} alt={event.title} />
+                    <Image
+                      src={event.imageUrl}
+                      alt={event.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      style={{ objectFit: 'cover' }}
+                    />
                   ) : (
                     <div className="image-placeholder">
                       Add event image via Admin Panel

@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import './Footer.css';
 
 const Footer = () => {
@@ -17,7 +18,14 @@ const Footer = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <img src="/images/logo.png" alt="Mountain Breeze Villa" className="footer-logo-img" />
+          <Image 
+            src="/images/logo.png" 
+            alt="Mountain Breeze Villa" 
+            width={160} 
+            height={52} 
+            className="footer-logo-img" 
+            style={{ objectFit: 'contain' }}
+          />
           <p>Eco-friendly luxury in the heart of Ella, Sri Lanka</p>
         </motion.div>
 

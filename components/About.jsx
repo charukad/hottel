@@ -2,6 +2,7 @@
 
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { useRef } from 'react';
+import Image from 'next/image';
 import AnimatedText from './ui/AnimatedText';
 import ScrollReveal from './ui/ScrollReveal';
 import './About.css';
@@ -20,10 +21,13 @@ const About = () => {
       <div className="container about-grid">
         <ScrollReveal variant="slide-left" className="about-image-wrap">
           <motion.div className="about-image glass-card" style={{ y: imageY }}>
-            <img
+            <Image
               src="/images/MountainBreeze.jpg"
               alt="Mountain Breeze Villa, Ella"
               className="about-img"
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              style={{ objectFit: 'cover' }}
             />
             <div className="about-image-overlay" />
           </motion.div>

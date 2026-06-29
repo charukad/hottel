@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import toast from 'react-hot-toast';
 import ScrollReveal from './ui/ScrollReveal';
 import GlassCard from './ui/GlassCard';
@@ -43,9 +44,12 @@ const Rooms = ({ rooms = [] }) => {
               <GlassCard className="room-card" tilt={true} glow={true}>
                 <div className="room-image">
                   {room.image ? (
-                    <img
+                    <Image
                       src={room.image}
                       alt={room.name}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                      style={{ objectFit: 'cover' }}
                       onError={(e) => {
                         e.target.style.display = 'none';
                         e.target.nextSibling.style.display = 'flex';

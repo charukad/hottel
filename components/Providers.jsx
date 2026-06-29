@@ -1,14 +1,12 @@
 'use client';
 
 import { Toaster } from 'react-hot-toast';
-import CustomCursor from './ui/CustomCursor';
 import ScrollProgress from './ui/ScrollProgress';
 
 const Providers = ({ children }) => {
   return (
     <>
       <ScrollProgress />
-      <CustomCursor />
       {children}
       <Toaster
         position="bottom-right"

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import AnimatedText from './ui/AnimatedText';
 import ParticleField from './ui/ParticleField';
@@ -80,9 +81,13 @@ const Hero = () => {
                 style={{ y: backgroundY }}
               >
                 {loadedImages[slide.id] !== false ? (
-                  <img
+                  <Image
                     src={slide.image}
                     alt={slide.alt}
+                    fill
+                    priority={index === 0}
+                    style={{ objectFit: 'cover' }}
+                    sizes="100vw"
                     onLoad={() => handleImageLoad(slide.id)}
                     onError={() => handleImageError(slide.id)}
                   />

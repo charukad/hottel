@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import ScrollReveal from './ui/ScrollReveal';
 import './Gallery.css';
 
@@ -47,9 +48,12 @@ const Gallery = ({ additionalImages = [] }) => {
               viewport={{ once: true, margin: '-40px' }}
               transition={{ delay: index * 0.04, duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
             >
-              <img
+              <Image
                 src={item.src}
                 alt={item.alt}
+                fill
+                sizes="(max-width: 768px) 50vw, 25vw"
+                style={{ objectFit: 'cover' }}
                 onError={(e) => {
                   e.target.style.display = 'none';
                   e.target.nextSibling.style.display = 'flex';
