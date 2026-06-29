@@ -1,0 +1,129 @@
+.rooms-section {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(180deg, rgba(238, 246, 239, 0.3) 0%, var(--cream) 100%);
+}
+
+.rooms-ambient {
+  position: absolute;
+  top: 10%;
+  left: -5%;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(212, 168, 83, 0.04) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.rooms-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2.5rem;
+}
+
+.room-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.room-image {
+  position: relative;
+  height: 240px;
+  overflow: hidden;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+.room-image img,
+.room-placeholder {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.room-card:hover .room-image img {
+  transform: scale(1.06);
+}
+
+.room-type-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  color: var(--green-dark);
+  padding: 0.35rem 0.9rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+}
+
+.room-body {
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.room-body h3 {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  color: var(--green-dark);
+  margin-bottom: 0.6rem;
+}
+
+.room-desc {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  flex: 1;
+  line-height: 1.7;
+}
+
+.room-features {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.room-features li {
+  background: rgba(52, 211, 153, 0.08);
+  color: var(--green-dark);
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.72rem;
+  border: 1px solid rgba(52, 211, 153, 0.12);
+  transition: background 0.3s ease;
+}
+
+.room-features li:hover {
+  background: rgba(52, 211, 153, 0.15);
+}
+
+.room-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(74, 124, 89, 0.08);
+}
+
+.room-price {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--green-dark);
+}
+
+.room-price small {
+  font-family: var(--font-body);
+  font-size: 0.72rem;
+  font-weight: 400;
+  color: var(--text-muted);
+}
+
+.room-footer .btn {
+  padding: 0.6rem 1.3rem;
+  font-size: 0.82rem;
+}
