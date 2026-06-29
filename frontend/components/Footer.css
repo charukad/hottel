@@ -12,10 +12,10 @@
   gap: 1.5rem;
 }
 
-.footer-logo {
-  font-family: var(--font-display);
-  font-size: 1.5rem;
-  color: white;
+.footer-logo-img {
+  height: 56px;
+  width: auto;
+  object-fit: contain;
 }
 
 .footer-brand p {

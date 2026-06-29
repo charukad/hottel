@@ -7,7 +7,7 @@ const Footer = () => {
     <footer className="footer">
       <div className="container footer-inner">
         <div className="footer-brand">
-          <span className="footer-logo">🌿 Mountain Breeze Villa</span>
+          <img src="/images/logo.png" alt="Mountain Breeze Villa" className="footer-logo-img" />
           <p>Eco-friendly luxury in the heart of Ella, Sri Lanka</p>
         </div>
         <div className="footer-links">

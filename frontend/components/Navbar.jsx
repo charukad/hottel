@@ -30,11 +30,7 @@ const Navbar = () => {
     <nav className={`navbar ${scrolled ? 'navbar-scrolled' : ''}`}>
       <div className="navbar-inner container">
         <a href="#home" className="navbar-logo">
-          <span className="logo-icon">🌿</span>
-          <span className="logo-text">
-            Mountain Breeze
-            <small>Ella, Sri Lanka</small>
-          </span>
+          <img src="/images/logo.png" alt="Mountain Breeze Villa" className="navbar-logo-img" />
         </a>
 
         <ul className={`navbar-links ${menuOpen ? 'open' : ''}`}>

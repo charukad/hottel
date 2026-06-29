@@ -19,26 +19,17 @@
 .sidebar-brand {
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  justify-content: center;
   padding-bottom: 2rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.15);
   margin-bottom: 1.5rem;
 }
 
-.sidebar-brand span {
-  font-size: 1.75rem;
-}
-
-.sidebar-brand strong {
-  display: block;
-  font-size: 1rem;
-}
-
-.sidebar-brand small {
-  font-size: 0.7rem;
-  opacity: 0.7;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+.sidebar-logo {
+  width: 100%;
+  max-width: 180px;
+  height: auto;
+  object-fit: contain;
 }
 
 .sidebar-nav {

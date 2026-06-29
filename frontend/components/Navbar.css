@@ -26,30 +26,16 @@
 .navbar-logo {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
 }
 
-.logo-icon {
-  font-size: 1.5rem;
+.navbar-logo-img {
+  height: 48px;
+  width: auto;
+  object-fit: contain;
 }
 
-.logo-text {
-  font-family: var(--font-display);
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: var(--green-dark);
-  line-height: 1.2;
-  display: flex;
-  flex-direction: column;
-}
-
-.logo-text small {
-  font-family: var(--font-body);
-  font-size: 0.65rem;
-  font-weight: 400;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--text-muted);
+.navbar-scrolled .navbar-logo-img {
+  height: 42px;
 }
 
 .navbar-links {
@@ -140,7 +126,7 @@
 }
 
 @media (max-width: 480px) {
-  .logo-text {
-    font-size: 1rem;
+  .navbar-logo-img {
+    height: 38px;
   }
 }
