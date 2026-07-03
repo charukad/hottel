@@ -5,6 +5,7 @@ import About from '@/components/About';
 import Rooms from '@/components/Rooms';
 import Services from '@/components/Services';
 import Activities from '@/components/Activities';
+import Reviews from '@/components/Reviews';
 import Gallery from '@/components/Gallery';
 import Contact from '@/components/Contact';
 import Footer from '@/components/Footer';
@@ -36,6 +37,8 @@ export default async function HomePage() {
         <SectionDivider variant="mist" />
         <Activities />
         <SectionDivider variant="gradient" />
+        <Reviews />
+        <SectionDivider variant="mist" />
         <Gallery additionalImages={galleryImages} />
         <SectionDivider variant="mist" />
         <Contact />

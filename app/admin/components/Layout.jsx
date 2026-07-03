@@ -41,14 +41,32 @@ const Layout = ({ children }) => {
           <Link href="/admin" className={pathname === '/admin' ? 'active' : ''}>
             Dashboard
           </Link>
-          <Link href="/admin/events" className={pathname === '/admin/events' ? 'active' : ''}>
+          <Link href="/admin/inquiries" className={pathname.startsWith('/admin/inquiries') ? 'active' : ''}>
+            Inquiries
+          </Link>
+          <Link href="/admin/hero" className={pathname.startsWith('/admin/hero') ? 'active' : ''}>
+            Hero Slides
+          </Link>
+          <Link href="/admin/events" className={pathname.startsWith('/admin/events') ? 'active' : ''}>
             Events
           </Link>
-          <Link href="/admin/rooms" className={pathname === '/admin/rooms' ? 'active' : ''}>
+          <Link href="/admin/rooms" className={pathname.startsWith('/admin/rooms') ? 'active' : ''}>
             Rooms
           </Link>
-          <Link href="/admin/gallery" className={pathname === '/admin/gallery' ? 'active' : ''}>
+          <Link href="/admin/services" className={pathname.startsWith('/admin/services') ? 'active' : ''}>
+            Services
+          </Link>
+          <Link href="/admin/activities" className={pathname.startsWith('/admin/activities') ? 'active' : ''}>
+            Activities
+          </Link>
+          <Link href="/admin/gallery" className={pathname.startsWith('/admin/gallery') ? 'active' : ''}>
             Gallery
+          </Link>
+          <Link href="/admin/reviews" className={pathname.startsWith('/admin/reviews') ? 'active' : ''}>
+            Reviews
+          </Link>
+          <Link href="/admin/settings" className={pathname.startsWith('/admin/settings') ? 'active' : ''}>
+            Settings
           </Link>
         </nav>
         <div className="sidebar-footer">

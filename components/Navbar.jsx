@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
+import api from '../lib/api'; // use public api fetcher
 import './Navbar.css';
 
 const navLinks = [
@@ -20,8 +21,21 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('home');
+  const [logoUrl, setLogoUrl] = useState('/images/logo.png');
 
   useEffect(() => {
+    const loadSettings = async () => {
+      try {
+        const { data } = await api.get('/settings');
+        if (data && data.logoUrl) {
+          setLogoUrl(data.logoUrl);
+        }
+      } catch (e) {
+        console.error('Failed to load logo', e);
+      }
+    };
+    loadSettings();
+
     const handleScroll = () => setScrolled(window.scrollY > 50);
 
     const observerOptions = {
@@ -65,7 +79,7 @@ const Navbar = () => {
         <div className="navbar-inner container">
           <a href="#home" className="navbar-logo">
             <Image 
-              src="/images/logo.png" 
+              src={logoUrl} 
               alt="Mountain Breeze Villa" 
               width={160} 
               height={45} 

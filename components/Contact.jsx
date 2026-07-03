@@ -1,15 +1,14 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import ScrollReveal from './ui/ScrollReveal';
 import MagneticButton from './ui/MagneticButton';
+import api from '../lib/api';
 import './Contact.css';
 
-const WHATSAPP_NUMBER = '94710743192';
-const EMAIL = 'info@mountainbreezevilla.com';
-
 const Contact = () => {
+  const [settings, setSettings] = useState(null);
   const [form, setForm] = useState({
     name: '',
     email: '',
@@ -20,31 +19,78 @@ const Contact = () => {
     message: '',
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  useEffect(() => {
+    const fetchSettings = async () => {
+      try {
+        const { data } = await api.get('/settings');
+        setSettings(data);
+      } catch (e) {
+        console.error('Failed to load contact settings', e);
+      }
+    };
+    fetchSettings();
+  }, []);
+
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
 
-    const text = encodeURIComponent(
-      `Hello Mountain Breeze Villa!\n\n` +
-        `Name: ${form.name}\n` +
-        `Email: ${form.email}\n` +
-        `Check-in: ${form.checkIn}\n` +
-        `Check-out: ${form.checkOut}\n` +
-        `Guests: ${form.guests}\n` +
-        `Room: ${form.room || 'Any available'}\n` +
-        `Message: ${form.message}`
-    );
+    try {
+      // 1. Save inquiry to database for Admin dashboard
+      await api.post('/inquiries', {
+        name: form.name,
+        email: form.email,
+        phone: '', // Optional field we didn't include yet
+        checkIn: form.checkIn,
+        checkOut: form.checkOut,
+        guests: Number(form.guests),
+        roomType: form.room,
+        message: form.message
+      });
 
-    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${text}`, '_blank');
-    toast.success('Opening WhatsApp to complete your booking!');
+      // 2. Format for WhatsApp
+      const text = encodeURIComponent(
+        `Hello Mountain Breeze Villa!\n\n` +
+          `Name: ${form.name}\n` +
+          `Email: ${form.email}\n` +
+          `Check-in: ${form.checkIn}\n` +
+          `Check-out: ${form.checkOut}\n` +
+          `Guests: ${form.guests}\n` +
+          `Room: ${form.room || 'Any available'}\n` +
+          `Message: ${form.message}`
+      );
+
+      // Extract Whatsapp number from settings or use fallback
+      let phone = settings?.socialWhatsapp || settings?.contactPhone || '94710743192';
+      // Clean non-numeric characters for WhatsApp link
+      phone = phone.replace(/\D/g, '');
+      if (phone.startsWith('0')) { phone = '94' + phone.substring(1); } // basic local to international format
+
+      window.open(`https://wa.me/${phone}?text=${text}`, '_blank');
+      toast.success('Inquiry sent! Opening WhatsApp to complete your booking.');
+      
+      setForm({
+        name: '', email: '', checkIn: '', checkOut: '', guests: '2', room: '', message: ''
+      });
+    } catch (e) {
+      toast.error('Failed to send inquiry. Please try WhatsApp directly.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const openWhatsApp = () => {
+    let phone = settings?.socialWhatsapp || settings?.contactPhone || '94710743192';
+    phone = phone.replace(/\D/g, '');
+    if (phone.startsWith('0')) { phone = '94' + phone.substring(1); }
     window.open(
-      `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent('Hello! I would like to inquire about a stay at Mountain Breeze Villa.')}`,
+      `https://wa.me/${phone}?text=${encodeURIComponent('Hello! I would like to inquire about a stay at Mountain Breeze Villa.')}`,
       '_blank'
     );
   };
@@ -71,30 +117,31 @@ const Contact = () => {
                 <button className="btn btn-whatsapp contact-whatsapp" onClick={openWhatsApp}>
                   💬 Chat on WhatsApp
                 </button>
-                <a href={`mailto:${EMAIL}`} className="contact-link">
-                  ✉️ {EMAIL}
+                <a href={`mailto:${settings?.contactEmail || 'info@mountainbreezevilla.com'}`} className="contact-link">
+                  ✉️ {settings?.contactEmail || 'info@mountainbreezevilla.com'}
                 </a>
                 <p className="contact-address">
-                  📍 Mountain Breeze Villa<br />
-                  Ella, Uva Province<br />
-                  Sri Lanka
+                  📍 {settings?.contactAddress || 'Mountain Breeze Villa, Ella, Uva Province, Sri Lanka'}
                 </p>
               </div>
 
               <div className="contact-map glass-card">
-                <iframe
-                  title="Mountain Breeze Villa Location"
-                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.6639558508577!2d81.0418814!3d6.9307091!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3ae46302a36714eb%3A0xed85eb8b9de667a8!2sMountain%20Breeze%20Villa!5e0!3m2!1sen!2slk!4v1782627947723!5m2!1sen!2slk"
-                  width="100%"
-                  height="280"
-                  style={{
-                    border: 0,
-                    borderRadius: '16px',
-                  }}
-                  allowFullScreen
-                  loading="lazy"
-                  referrerPolicy="strict-origin-when-cross-origin"
-                />
+                {settings?.googleMapsUrl ? (
+                  <iframe
+                    title="Mountain Breeze Villa Location"
+                    src={settings.googleMapsUrl}
+                    width="100%"
+                    height="280"
+                    style={{ border: 0, borderRadius: '16px' }}
+                    allowFullScreen
+                    loading="lazy"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                  />
+                ) : (
+                  <div style={{ height: '280px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f5f5f5', borderRadius: '16px' }}>
+                    <p>Map loading...</p>
+                  </div>
+                )}
               </div>
             </div>
           </ScrollReveal>
@@ -184,8 +231,8 @@ const Contact = () => {
                   placeholder="Any special requests or questions..."
                 />
               </div>
-              <MagneticButton className="btn-primary form-submit" type="submit">
-                Send Booking via WhatsApp <span className="btn-icon">→</span>
+              <MagneticButton className="btn-primary form-submit" type="submit" disabled={isSubmitting}>
+                {isSubmitting ? 'Sending...' : 'Send Booking Inquiry'} <span className="btn-icon">→</span>
               </MagneticButton>
             </form>
           </ScrollReveal>

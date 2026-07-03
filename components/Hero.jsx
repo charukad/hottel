@@ -7,42 +7,14 @@ import AnimatedText from './ui/AnimatedText';
 import ParticleField from './ui/ParticleField';
 import './Hero.css';
 
-const slides = [
-  {
-    id: 1,
-    image: '/images/hero-villa-mountains.jpg',
-    alt: 'Mountain Breeze Villa with Ella mountain views',
-    placeholder: 'Villa exterior with misty Ella mountains',
-  },
-  {
-    id: 2,
-    image: '/images/hero-tea-plantation.jpg',
-    alt: 'Tea plantation near Ella',
-    placeholder: 'Lush green tea plantation panorama',
-  },
-  {
-    id: 4,
-    image: '/images/MountainBreeze.jpg',
-    alt: 'Mountain Breeze Villa',
-    placeholder: 'Mountain Breeze Villa panorama',
-  },
-  {
-    id: 5,
-    image: '/images/hero-tea-plantation2.jpg',
-    alt: 'Tea plantation vista',
-    placeholder: 'Lush green tea fields',
-  },
-  {
-    id: 3,
-    image: '/images/hero-nature-retreat.jpg',
-    alt: 'Peaceful nature retreat in Sri Lanka',
-    placeholder: 'Serene nature path or cabana view',
-  },
-];
+import api from '../lib/api';
+// Slides will be fetched dynamically from the DB
 
 const Hero = () => {
   const [current, setCurrent] = useState(0);
   const [loadedImages, setLoadedImages] = useState({});
+  const [slides, setSlides] = useState([]);
+  const [settings, setSettings] = useState(null);
 
   const { scrollY } = useScroll();
   const backgroundY = useTransform(scrollY, [0, 800], [0, 200]);
@@ -50,11 +22,31 @@ const Hero = () => {
   const contentOpacity = useTransform(scrollY, [0, 400], [1, 0]);
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [heroRes, settingsRes] = await Promise.all([
+          api.get('/hero'),
+          api.get('/settings')
+        ]);
+        
+        // Only keep active slides
+        const activeSlides = heroRes.data.filter(s => s.isActive);
+        setSlides(activeSlides);
+        setSettings(settingsRes.data);
+      } catch (e) {
+        console.error('Failed to load hero data', e);
+      }
+    };
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    if (slides.length <= 1) return;
     const timer = setInterval(() => {
       setCurrent((prev) => (prev + 1) % slides.length);
     }, 7000);
     return () => clearInterval(timer);
-  }, []);
+  }, [slides.length]);
 
   const handleImageError = (id) => {
     setLoadedImages((prev) => ({ ...prev, [id]: false }));
@@ -72,7 +64,7 @@ const Hero = () => {
           (slide, index) =>
             index === current && (
               <motion.div
-                key={slide.id}
+                key={slide._id}
                 className="hero-slide"
                 initial={{ opacity: 0, scale: 1.1 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -80,20 +72,21 @@ const Hero = () => {
                 transition={{ duration: 1.8, ease: [0.25, 0.46, 0.45, 0.94] }}
                 style={{ y: backgroundY }}
               >
-                {loadedImages[slide.id] !== false ? (
+                {loadedImages[slide._id] !== false ? (
                   <Image
-                    src={slide.image}
-                    alt={slide.alt}
+                    src={slide.imageUrl}
+                    alt={slide.title || 'Hero Slide'}
                     fill
                     priority={index === 0}
                     style={{ objectFit: 'cover' }}
                     sizes="100vw"
-                    onLoad={() => handleImageLoad(slide.id)}
-                    onError={() => handleImageError(slide.id)}
+                    onLoad={() => handleImageLoad(slide._id)}
+                    onError={() => handleImageError(slide._id)}
+                    unoptimized={slide.imageUrl.startsWith('http')}
                   />
                 ) : (
                   <div className="hero-placeholder image-placeholder">
-                    {slide.placeholder}
+                    {slide.subtitle || 'Mountain Breeze Villa'}
                   </div>
                 )}
               </motion.div>
@@ -124,11 +117,11 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8, duration: 0.6 }}
           >
-            Eco-Friendly Mountain Retreat
+            {settings?.tagline || slides[current]?.subtitle || 'Eco-Friendly Mountain Retreat'}
           </motion.span>
 
           <AnimatedText
-            text="Mountain Breeze Villa"
+            text={slides[current]?.title || settings?.hotelName || 'Mountain Breeze Villa'}
             tag="h1"
             className="hero-title"
             splitBy="character"
@@ -142,8 +135,7 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.8, duration: 0.8 }}
           >
-            A cinematic escape into the heart of Ella, Sri Lanka — where luxury
-            meets the whisper of mountains
+            {settings?.description || 'A cinematic escape into the heart of Ella, Sri Lanka — where luxury meets the whisper of mountains'}
           </motion.p>
 
           <motion.div

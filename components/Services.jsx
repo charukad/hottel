@@ -3,19 +3,28 @@
 import { motion } from 'framer-motion';
 import ScrollReveal from './ui/ScrollReveal';
 import GlassCard from './ui/GlassCard';
+import api from '../lib/api';
 import './Services.css';
 import './ui/GlassCard.css';
 
-const services = [
-  { icon: '🍷', title: 'Mini Bar', desc: 'Curated selection of local and international beverages' },
-  { icon: '👕', title: 'Laundry', desc: 'Fresh linens and laundry service for a worry-free stay' },
-  { icon: '🍛', title: 'Breakfast, Lunch & Dinner', desc: 'Authentic Sri Lankan cuisine with fresh local ingredients' },
-  { icon: '📺', title: 'TV', desc: 'Entertainment in the comfort of your room' },
-  { icon: '☕', title: 'Tea & Coffee Maker', desc: 'Premium Ceylon tea and freshly brewed coffee' },
-  { icon: '🚿', title: 'Hot Water', desc: '24/7 hot water for your comfort' },
-];
-
 const Services = () => {
+  const [services, setServices] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const { data } = await api.get('/services');
+        setServices(data.filter(s => s.isActive));
+      } catch (e) {
+        console.error('Failed to load services', e);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchServices();
+  }, []);
+
   return (
     <section id="services" className="services-section">
       <div className="container">
@@ -39,26 +48,27 @@ const Services = () => {
             visible: { transition: { staggerChildren: 0.08 } },
           }}
         >
-          {services.map((service) => (
-            <motion.div
-              key={service.title}
-              variants={{
-                hidden: { opacity: 0, filter: 'blur(8px)', y: 20 },
-                visible: {
-                  opacity: 1,
-                  filter: 'blur(0px)',
-                  y: 0,
-                  transition: { duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] },
-                },
-              }}
-            >
-              <GlassCard className="service-card" tilt={true} glow={true}>
-                <span className="service-icon">{service.icon}</span>
-                <h3>{service.title}</h3>
-                <p>{service.desc}</p>
-              </GlassCard>
-            </motion.div>
-          ))}
+          {loading ? (
+            <div className="spinner" style={{ gridColumn: '1 / -1', margin: '2rem auto' }} />
+          ) : services.length === 0 ? (
+            <p style={{ gridColumn: '1 / -1', textAlign: 'center' }}>No services available right now.</p>
+          ) : (
+            services.map((service, index) => (
+              <motion.div
+                key={service._id}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-100px' }}
+                transition={{ duration: 0.6, delay: index * 0.1 }}
+              >
+                <GlassCard className="service-card" tilt={true} glow={true}>
+                  <div className="service-icon" dangerouslySetInnerHTML={{ __html: service.icon }} />
+                  <h3>{service.title}</h3>
+                  <p>{service.description}</p>
+                </GlassCard>
+              </motion.div>
+            ))
+          )}
         </motion.div>
       </div>
     </section>
