@@ -36,6 +36,7 @@ const GalleryItem = ({ item, index }) => {
           fill
           sizes="(max-width: 768px) 50vw, 25vw"
           style={{ objectFit: 'cover' }}
+          unoptimized={true}
           onError={() => setHasError(true)}
         />
       ) : (

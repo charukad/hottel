@@ -68,7 +68,7 @@ const Activities = () => {
                     fill
                     sizes="(max-width: 768px) 100vw, 340px"
                     style={{ objectFit: 'cover' }}
-                    unoptimized={activity.imageUrl.startsWith('http')}
+                    unoptimized={true}
                     onError={(e) => {
                       e.target.style.display = 'none';
                       e.target.nextSibling.style.display = 'flex';

@@ -82,7 +82,7 @@ const Hero = () => {
                     sizes="100vw"
                     onLoad={() => handleImageLoad(slide._id)}
                     onError={() => handleImageError(slide._id)}
-                    unoptimized={slide.imageUrl.startsWith('http')}
+                    unoptimized={true}
                   />
                 ) : (
                   <div className="hero-placeholder image-placeholder">
