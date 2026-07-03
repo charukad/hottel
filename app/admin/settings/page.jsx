@@ -148,7 +148,7 @@ export default function SettingsPage() {
             <div className="form-group full-width">
               <label>Google Maps Embed URL</label>
               <input type="url" name="googleMapsUrl" value={settings.googleMapsUrl || ''} onChange={handleChange} placeholder="https://www.google.com/maps/embed?pb=..." />
-              <small className="help-text">Go to Google Maps > Share > Embed a map > Copy the URL inside the src="..." attribute.</small>
+              <small className="help-text">Go to Google Maps &gt; Share &gt; Embed a map &gt; Copy the URL inside the src="..." attribute.</small>
             </div>
           </div>
         </section>
