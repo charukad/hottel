@@ -6,14 +6,25 @@ import api from '../api/axios';
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+  // Start with null to match server-rendered state (no localStorage on server)
   const [admin, setAdmin] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = localStorage.getItem('mbv-admin-token');
-    const savedAdmin = localStorage.getItem('mbv-admin-user');
-    if (token && savedAdmin) {
-      setAdmin(JSON.parse(savedAdmin));
+    try {
+      const token = localStorage.getItem('mbv-admin-token');
+      const savedAdmin = localStorage.getItem('mbv-admin-user');
+      if (token && savedAdmin) {
+        const parsed = JSON.parse(savedAdmin);
+        if (parsed && typeof parsed === 'object') {
+          setAdmin(parsed);
+        }
+      }
+    } catch (err) {
+      // Corrupted localStorage data — clear it to prevent repeated failures
+      console.error('Failed to parse saved admin data:', err.message);
+      localStorage.removeItem('mbv-admin-token');
+      localStorage.removeItem('mbv-admin-user');
     }
     setLoading(false);
   }, []);

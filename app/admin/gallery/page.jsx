@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
+import Image from 'next/image';
 import api from '../api/axios';
 import GalleryForm from '../components/GalleryForm';
 import '../styles/Gallery.css';
@@ -90,7 +91,9 @@ export default function GalleryPage() {
         <div className="gallery-grid-admin">
           {images.map((image) => (
             <article key={image._id} className="gallery-admin-card card">
-              <img src={image.imageUrl} alt={image.alt} className="gallery-admin-thumb" />
+              <div style={{ position: 'relative', width: '100%', height: '200px' }}>
+                <Image src={image.imageUrl} alt={image.alt} fill style={{ objectFit: 'cover' }} className="gallery-admin-thumb" unoptimized={image.imageUrl.startsWith('http')} />
+              </div>
               <div className="gallery-admin-body">
                 <p className="gallery-admin-alt">{image.alt}</p>
                 <span className="gallery-admin-order">Order: {image.order}</span>

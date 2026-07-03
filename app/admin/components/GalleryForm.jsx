@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import api from '../api/axios';
 import '../styles/GalleryForm.css';
@@ -15,6 +15,15 @@ const GalleryForm = ({ image, onClose, onSuccess }) => {
   const [preview, setPreview] = useState(image?.imageUrl || '');
   const [submitting, setSubmitting] = useState(false);
 
+  // Clean up object URLs to prevent memory leaks
+  useEffect(() => {
+    return () => {
+      if (preview && preview.startsWith('blob:')) {
+        URL.revokeObjectURL(preview);
+      }
+    };
+  }, [preview]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm({ ...form, [name]: name === 'order' ? Number(value) : value });
@@ -23,6 +32,10 @@ const GalleryForm = ({ image, onClose, onSuccess }) => {
   const handleFileChange = (e) => {
     const selected = e.target.files[0];
     if (selected) {
+      // Revoke old blob URL before creating a new one
+      if (preview && preview.startsWith('blob:')) {
+        URL.revokeObjectURL(preview);
+      }
       setFile(selected);
       setPreview(URL.createObjectURL(selected));
     }
@@ -75,9 +88,9 @@ const GalleryForm = ({ image, onClose, onSuccess }) => {
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label htmlFor="alt">Description</label>
+            <label htmlFor="gallery-alt">Description</label>
             <input
-              id="alt"
+              id="gallery-alt"
               name="alt"
               value={form.alt}
               onChange={handleChange}
@@ -87,9 +100,9 @@ const GalleryForm = ({ image, onClose, onSuccess }) => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="order">Display order</label>
+            <label htmlFor="gallery-order">Display order</label>
             <input
-              id="order"
+              id="gallery-order"
               name="order"
               type="number"
               min="0"
@@ -100,8 +113,8 @@ const GalleryForm = ({ image, onClose, onSuccess }) => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="image">Image{isEdit ? ' (optional — leave empty to keep current)' : ''}</label>
-            <input id="image" type="file" accept="image/*" onChange={handleFileChange} />
+            <label htmlFor="gallery-image">Image{isEdit ? ' (optional — leave empty to keep current)' : ''}</label>
+            <input id="gallery-image" type="file" accept="image/*" onChange={handleFileChange} />
             {preview && <img src={preview} alt="Preview" className="image-preview" />}
           </div>
 

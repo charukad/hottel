@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import { useAuth } from '../context/AuthContext';
@@ -13,12 +13,17 @@ export default function LoginPage() {
   const [submitting, setSubmitting] = useState(false);
   const router = useRouter();
 
+  // Redirect authenticated users — inside useEffect, not during render
+  useEffect(() => {
+    if (!loading && isAuthenticated) {
+      router.replace('/admin');
+    }
+  }, [loading, isAuthenticated, router]);
+
   if (loading) return <div className="spinner" />;
-  
-  if (isAuthenticated) {
-    router.replace('/admin');
-    return null;
-  }
+
+  // Don't render the form if already authenticated (redirect is in progress)
+  if (isAuthenticated) return <div className="spinner" />;
 
   const handleSubmit = async (e) => {
     e.preventDefault();

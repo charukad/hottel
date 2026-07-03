@@ -1,0 +1,40 @@
+.gallery-selector-overlay {
+  z-index: 1000; /* Ensure it appears above other modals like EventForm */
+}
+
+.gallery-selector-modal {
+  max-width: 900px;
+  width: 90%;
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.gallery-grid-selector {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 15px;
+  overflow-y: auto;
+  padding: 10px;
+}
+
+.gallery-item-selector {
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.2s ease;
+  aspect-ratio: 1;
+}
+
+.gallery-item-selector img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.gallery-item-selector:hover {
+  border-color: var(--primary);
+  transform: scale(1.05);
+}

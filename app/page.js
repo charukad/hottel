@@ -11,7 +11,7 @@ import Footer from '@/components/Footer';
 import SectionDivider from '@/components/ui/SectionDivider';
 import { fetchEvents, fetchRooms, fetchGalleryImages } from '@/lib/api';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 60; // Cache the page for 60 seconds to make it load instantly
 
 export default async function HomePage() {
   const [events, rooms, galleryImages] = await Promise.all([

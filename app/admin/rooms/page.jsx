@@ -4,57 +4,50 @@ import { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import Image from 'next/image';
 import api from '../api/axios';
-import EventForm from '../components/EventForm';
-import '../styles/Events.css';
+import RoomForm from '../components/RoomForm';
+import '../styles/Events.css'; // Reusing event styles for table layouts
 
-const formatDate = (dateStr) =>
-  new Date(dateStr).toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  });
-
-export default function EventsPage() {
-  const [events, setEvents] = useState([]);
+export default function RoomsPage() {
+  const [rooms, setRooms] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
-  const [editingEvent, setEditingEvent] = useState(null);
+  const [editingRoom, setEditingRoom] = useState(null);
   const [deleting, setDeleting] = useState(null);
 
-  const fetchEvents = async () => {
+  const fetchRooms = async () => {
     try {
-      const { data } = await api.get('/events');
-      setEvents(data);
+      const { data } = await api.get('/rooms');
+      setRooms(data);
     } catch {
-      toast.error('Failed to load events');
+      toast.error('Failed to load rooms');
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchEvents();
+    fetchRooms();
   }, []);
 
   const handleCreate = () => {
-    setEditingEvent(null);
+    setEditingRoom(null);
     setShowForm(true);
   };
 
-  const handleEdit = (event) => {
-    setEditingEvent(event);
+  const handleEdit = (room) => {
+    setEditingRoom(room);
     setShowForm(true);
   };
 
   const handleDelete = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this event?')) return;
+    if (!window.confirm('Are you sure you want to delete this room?')) return;
     setDeleting(id);
     try {
-      await api.delete(`/events/${id}`);
-      toast.success('Event deleted');
-      fetchEvents();
+      await api.delete(`/rooms/${id}`);
+      toast.success('Room deleted');
+      fetchRooms();
     } catch {
-      toast.error('Failed to delete event');
+      toast.error('Failed to delete room');
     } finally {
       setDeleting(null);
     }
@@ -62,33 +55,33 @@ export default function EventsPage() {
 
   const handleFormClose = () => {
     setShowForm(false);
-    setEditingEvent(null);
+    setEditingRoom(null);
   };
 
   const handleFormSuccess = () => {
     handleFormClose();
-    fetchEvents();
+    fetchRooms();
   };
 
   return (
     <div className="events-page">
       <div className="events-header">
         <div>
-          <h1>Event Management</h1>
-          <p>Create and manage events shown on the public website</p>
+          <h1>Room Management</h1>
+          <p>Create and manage accommodation options</p>
         </div>
         <button className="btn btn-primary" onClick={handleCreate}>
-          + Add Event
+          + Add Room
         </button>
       </div>
 
       {loading ? (
         <div className="spinner" />
-      ) : events.length === 0 ? (
+      ) : rooms.length === 0 ? (
         <div className="empty-state card">
-          <p>No events yet. Create your first event to display on the website.</p>
+          <p>No rooms yet. Create your first room to display on the website.</p>
           <button className="btn btn-primary" onClick={handleCreate}>
-            Create Event
+            Create Room
           </button>
         </div>
       ) : (
@@ -97,37 +90,37 @@ export default function EventsPage() {
             <thead>
               <tr>
                 <th>Image</th>
-                <th>Title</th>
-                <th>Date</th>
-                <th>Description</th>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Price</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              {events.map((event) => (
-                <tr key={event._id}>
+              {rooms.map((room) => (
+                <tr key={room._id}>
                   <td>
-                    {event.imageUrl ? (
+                    {room.images && room.images.length > 0 ? (
                       <div style={{ position: 'relative', width: '100px', height: '60px' }}>
-                        <Image src={event.imageUrl} alt={event.title} fill style={{ objectFit: 'cover' }} className="event-thumb" unoptimized={event.imageUrl.startsWith('http')} />
+                        <Image src={room.images[0]} alt={room.name} fill style={{ objectFit: 'cover' }} className="event-thumb" unoptimized={room.images[0].startsWith('http')} />
                       </div>
                     ) : (
                       <span className="no-image">No image</span>
                     )}
                   </td>
-                  <td><strong>{event.title}</strong></td>
-                  <td>{formatDate(event.date)}</td>
-                  <td className="desc-cell">{event.description}</td>
+                  <td><strong>{room.name}</strong></td>
+                  <td>{room.type}</td>
+                  <td>LKR {room.price?.toLocaleString()}</td>
                   <td className="actions-cell">
-                    <button className="btn btn-outline btn-sm" onClick={() => handleEdit(event)}>
+                    <button className="btn btn-outline btn-sm" onClick={() => handleEdit(room)}>
                       Edit
                     </button>
                     <button
                       className="btn btn-danger btn-sm"
-                      onClick={() => handleDelete(event._id)}
-                      disabled={deleting === event._id}
+                      onClick={() => handleDelete(room._id)}
+                      disabled={deleting === room._id}
                     >
-                      {deleting === event._id ? '...' : 'Delete'}
+                      {deleting === room._id ? '...' : 'Delete'}
                     </button>
                   </td>
                 </tr>
@@ -138,8 +131,8 @@ export default function EventsPage() {
       )}
 
       {showForm && (
-        <EventForm
-          event={editingEvent}
+        <RoomForm
+          room={editingRoom}
           onClose={handleFormClose}
           onSuccess={handleFormSuccess}
         />

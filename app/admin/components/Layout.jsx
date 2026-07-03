@@ -44,6 +44,9 @@ const Layout = ({ children }) => {
           <Link href="/admin/events" className={pathname === '/admin/events' ? 'active' : ''}>
             Events
           </Link>
+          <Link href="/admin/rooms" className={pathname === '/admin/rooms' ? 'active' : ''}>
+            Rooms
+          </Link>
           <Link href="/admin/gallery" className={pathname === '/admin/gallery' ? 'active' : ''}>
             Gallery
           </Link>
