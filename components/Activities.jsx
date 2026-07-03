@@ -7,7 +7,7 @@ import ScrollReveal from './ui/ScrollReveal';
 import './Activities.css';
 
 import { useState, useEffect } from 'react';
-import api from '../lib/api';
+import api from '../lib/axios';
 // Activities will be fetched dynamically from the DB
 
 const Activities = () => {

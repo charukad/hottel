@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import api from '../lib/api';
+import api from '../lib/axios';
 import ScrollReveal from './ui/ScrollReveal';
 import GlassCard from './ui/GlassCard';
 import './Reviews.css';

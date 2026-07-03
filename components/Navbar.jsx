@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import api from '../lib/api'; // use public api fetcher
+import api from '../lib/axios';
 import './Navbar.css';
 
 const navLinks = [

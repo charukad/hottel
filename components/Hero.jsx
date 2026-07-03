@@ -7,7 +7,7 @@ import AnimatedText from './ui/AnimatedText';
 import ParticleField from './ui/ParticleField';
 import './Hero.css';
 
-import api from '../lib/api';
+import api from '../lib/axios';
 // Slides will be fetched dynamically from the DB
 
 const Hero = () => {

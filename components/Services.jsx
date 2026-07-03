@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import ScrollReveal from './ui/ScrollReveal';
 import GlassCard from './ui/GlassCard';
-import api from '../lib/api';
+import api from '../lib/axios';
 import './Services.css';
 import './ui/GlassCard.css';
 

@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import ScrollReveal from './ui/ScrollReveal';
 import MagneticButton from './ui/MagneticButton';
-import api from '../lib/api';
+import api from '../lib/axios';
 import './Contact.css';
 
 const Contact = () => {
