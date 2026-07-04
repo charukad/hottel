@@ -205,8 +205,10 @@
   }
 
   .hero-title {
-    font-size: clamp(2rem, 12vw, 2.5rem);
+    font-size: clamp(1.8rem, 10vw, 2.2rem);
     margin-bottom: 1rem;
+    word-break: keep-all;
+    overflow-wrap: normal;
   }
   
   .hero-buttons {

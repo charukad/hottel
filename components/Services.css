@@ -45,3 +45,20 @@
   font-size: 0.9rem;
   line-height: 1.65;
 }
+
+.service-icon svg {
+  width: 2.5rem;
+  height: 2.5rem;
+  display: inline-block;
+}
+
+@media (max-width: 768px) {
+  .services-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .service-card {
+    padding: 1.75rem 1.25rem;
+  }
+}
