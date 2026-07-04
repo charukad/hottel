@@ -86,6 +86,7 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
@@ -403,11 +404,36 @@ section {
 /* ─── Responsive ─── */
 @media (max-width: 768px) {
   section {
-    padding: clamp(3rem, 6vw, 5rem) 1rem;
+    padding: clamp(2.5rem, 5vw, 4rem) 1rem;
+  }
+
+  .section-title {
+    font-size: clamp(2rem, 8vw, 2.5rem);
+  }
+
+  .section-subtitle {
+    font-size: 0.95rem;
+    margin-top: 1rem;
   }
 
   :root {
     --nav-height: 64px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+  }
+
+  .card {
+    border-radius: var(--radius-lg);
+  }
+}
+
+@media (max-width: 480px) {
+  .section-header {
+    margin-bottom: 2rem;
+  }
+  
+  .section-title {
+    font-size: clamp(1.8rem, 8vw, 2.2rem);
   }
 }
 

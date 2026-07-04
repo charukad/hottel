@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '../context/AuthContext';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import '../styles/Layout.css';
 import '../styles/index.css';
 
@@ -11,6 +11,12 @@ const Layout = ({ children }) => {
   const { admin, logout, loading, isAuthenticated } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Close mobile menu when route changes
+  useEffect(() => {
+    setMobileMenuOpen(false);
+  }, [pathname]);
 
   useEffect(() => {
     if (!loading && !isAuthenticated && pathname !== '/admin/login') {
@@ -33,7 +39,17 @@ const Layout = ({ children }) => {
 
   return (
     <div className="admin-layout">
-      <aside className="sidebar">
+      <button 
+        className="mobile-menu-toggle" 
+        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+        aria-label="Toggle menu"
+      >
+        {mobileMenuOpen ? '✕' : '☰'}
+      </button>
+
+      <div className={`mobile-overlay ${mobileMenuOpen ? 'open' : ''}`} onClick={() => setMobileMenuOpen(false)} />
+
+      <aside className={`sidebar ${mobileMenuOpen ? 'open' : ''}`}>
         <div className="sidebar-brand">
           <img src="/images/logo.png" alt="Mountain Breeze Villa" className="sidebar-logo" />
         </div>

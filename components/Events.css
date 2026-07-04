@@ -60,3 +60,18 @@
   font-size: 0.95rem;
   line-height: 1.7;
 }
+
+@media (max-width: 768px) {
+  .events-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .event-image {
+    height: 200px;
+  }
+
+  .event-body {
+    padding: 1.25rem;
+  }
+}
