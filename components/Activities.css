@@ -85,24 +85,29 @@
 
 @media (max-width: 768px) {
   .activities-track {
-    gap: 1.25rem;
+    gap: 1rem;
   }
 
   .activity-card {
-    flex: 0 0 82vw;
-    max-width: 300px;
+    flex: 0 0 85vw;
+    max-width: 280px;
   }
 
   .activity-image {
-    height: 180px;
+    height: 130px;
   }
   
   .activity-overlay {
-    padding: 1rem;
+    padding: 0.75rem 1rem;
+  }
+
+  .activity-overlay h3 {
+    font-size: 1.25rem;
   }
   
   .activity-desc {
-    padding: 1rem;
-    font-size: 0.9rem;
+    padding: 0.75rem 1rem;
+    font-size: 0.85rem;
+    line-height: 1.5;
   }
 }

@@ -88,12 +88,17 @@
 
 @media (max-width: 480px) {
   .gallery-masonry {
-    grid-template-columns: 1fr;
-    grid-auto-rows: 240px;
-    gap: 1rem;
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: 120px;
+    gap: 0.5rem;
   }
 
   .gallery-item-wide {
-    grid-column: span 1;
+    grid-column: span 2;
+  }
+
+  .gallery-item-overlay span {
+    font-size: 0.8rem;
+    padding: 0.3rem 0.8rem;
   }
 }

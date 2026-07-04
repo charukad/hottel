@@ -404,7 +404,7 @@ section {
 /* ─── Responsive ─── */
 @media (max-width: 768px) {
   section {
-    padding: clamp(2.5rem, 5vw, 4rem) 1rem;
+    padding: clamp(2rem, 4vw, 3rem) 1rem;
   }
 
   .section-title {
@@ -428,8 +428,12 @@ section {
 }
 
 @media (max-width: 480px) {
+  section {
+    padding: clamp(1.75rem, 3vw, 2.5rem) 1rem;
+  }
+
   .section-header {
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
   }
   
   .section-title {

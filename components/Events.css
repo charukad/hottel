@@ -64,14 +64,29 @@
 @media (max-width: 768px) {
   .events-grid {
     grid-template-columns: 1fr;
-    gap: 1.5rem;
+    gap: 1.25rem;
   }
   
   .event-image {
-    height: 200px;
+    height: 140px;
   }
 
   .event-body {
-    padding: 1.25rem;
+    padding: 1rem;
+  }
+
+  .event-body h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .event-body p {
+    font-size: 0.85rem;
+    margin-bottom: 0;
+  }
+
+  .event-date-badge {
+    padding: 0.25rem 0.75rem;
+    font-size: 0.65rem;
   }
 }
