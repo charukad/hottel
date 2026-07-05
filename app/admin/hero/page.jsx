@@ -189,7 +189,8 @@ export default function HeroPage() {
             </tbody>
           </table>
         </div>
-      )}
+            )
+          )}
 
       {showForm && (
         <HeroForm
