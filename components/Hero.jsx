@@ -67,41 +67,50 @@ const Hero = () => {
       vid.playbackRate = speed;
       
       if (settings.heroVideoPingPong) {
-        // Custom ping pong loop
-        const handleTimeUpdate = () => {
-          // If playing forward and very close to the end
-          if (vid.playbackRate > 0 && vid.currentTime >= vid.duration - 0.1) {
-            vid.playbackRate = -speed;
-            vid.play().catch(e => console.log(e));
-          } 
-          // If playing backward and very close to the start
-          else if (vid.playbackRate < 0 && vid.currentTime <= 0.1) {
-            vid.playbackRate = speed;
-            vid.play().catch(e => console.log(e));
+        let animationFrameId;
+        let isReversing = false;
+        let lastTime = performance.now();
+
+        const reverseLoop = (now) => {
+          if (!vid) return;
+          // Clamp delta to prevent huge jumps if tab is backgrounded
+          const delta = Math.min((now - lastTime) / 1000, 0.1); 
+          lastTime = now;
+
+          if (isReversing) {
+            if (vid.currentTime <= 0.05) {
+              isReversing = false;
+              vid.playbackRate = speed;
+              vid.play().catch(e => console.log(e));
+            } else {
+              vid.currentTime -= delta * speed;
+              animationFrameId = requestAnimationFrame(reverseLoop);
+            }
           }
         };
-        
-        // When the video naturally ends, force it to reverse and play
-        const handleEnded = () => {
-          vid.playbackRate = -speed;
-          vid.play().catch(e => console.log(e));
+
+        const startReverse = () => {
+          if (!isReversing) {
+            vid.pause();
+            isReversing = true;
+            lastTime = performance.now();
+            animationFrameId = requestAnimationFrame(reverseLoop);
+          }
+        };
+
+        const handleTimeUpdate = () => {
+          if (!isReversing && vid.currentTime >= vid.duration - 0.1) {
+            startReverse();
+          }
         };
         
         vid.addEventListener('timeupdate', handleTimeUpdate);
-        vid.addEventListener('ended', handleEnded);
-        
-        // Ensure play is called if it gets stuck
-        const handlePause = () => {
-          if (vid.currentTime > 0.1 && vid.currentTime < vid.duration - 0.1) {
-            vid.play().catch(e => console.log('Autoplay prevented', e));
-          }
-        };
-        vid.addEventListener('pause', handlePause);
+        vid.addEventListener('ended', startReverse);
         
         return () => {
+          if (animationFrameId) cancelAnimationFrame(animationFrameId);
           vid.removeEventListener('timeupdate', handleTimeUpdate);
-          vid.removeEventListener('ended', handleEnded);
-          vid.removeEventListener('pause', handlePause);
+          vid.removeEventListener('ended', startReverse);
         };
       }
     }
