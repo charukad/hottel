@@ -20,18 +20,29 @@ export async function PUT(req, { params }) {
         const image = await Gallery.findById(id);
         if (!image) throw new Error('Gallery image not found');
 
-        const formData = await req.formData();
-        const alt = formData.get('alt');
-        const order = formData.get('order');
-        const imageFile = formData.get('image');
+        const contentType = req.headers.get('content-type') || '';
+        
+        let alt, order, imageUrl;
+        
+        if (contentType.includes('application/json')) {
+          const body = await req.json();
+          alt = body.alt;
+          order = body.order;
+          imageUrl = body.imageUrl;
+        } else {
+          const formData = await req.formData();
+          alt = formData.get('alt');
+          order = formData.get('order');
+          const imageFile = formData.get('image');
+          if (imageFile && typeof imageFile !== 'string') {
+            await deleteFile(image.imageUrl);
+            imageUrl = await uploadFile(imageFile, 'gallery');
+          }
+        }
 
         if (alt) image.alt = alt;
         if (order !== null && order !== undefined) image.order = Number(order);
-
-        if (imageFile && typeof imageFile !== 'string') {
-          await deleteFile(image.imageUrl);
-          image.imageUrl = await uploadFile(imageFile, 'gallery');
-        }
+        if (imageUrl) image.imageUrl = imageUrl;
 
         await image.save();
         return image;

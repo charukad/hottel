@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import api from '../api/axios';
-import GallerySelector from './GallerySelector';
+import MediaSelector from './MediaSelector';
 import '../styles/EventForm.css'; // Reusing EventForm styles as the structure is similar
 
 const RoomForm = ({ room, onClose, onSuccess }) => {
@@ -15,11 +15,9 @@ const RoomForm = ({ room, onClose, onSuccess }) => {
     description: room?.description || '',
     features: room?.features?.join(', ') || '',
   });
-  const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(room?.images?.[0] || '');
   const [submitting, setSubmitting] = useState(false);
-  const [showGallery, setShowGallery] = useState(false);
-  const [selectedGalleryUrl, setSelectedGalleryUrl] = useState('');
+  const [showMediaSelector, setShowMediaSelector] = useState(false);
 
   // Clean up blob URLs to prevent memory leaks
   useEffect(() => {
@@ -34,26 +32,9 @@ const RoomForm = ({ room, onClose, onSuccess }) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      if (preview && preview.startsWith('blob:')) {
-        URL.revokeObjectURL(preview);
-      }
-      setImage(file);
-      setSelectedGalleryUrl('');
-      setPreview(URL.createObjectURL(file));
-    }
-  };
-
-  const handleGallerySelect = (url) => {
-    if (preview && preview.startsWith('blob:')) {
-      URL.revokeObjectURL(preview);
-    }
-    setImage(null);
-    setSelectedGalleryUrl(url);
-    setPreview(url);
-    setShowGallery(false);
+  const handleMediaSelect = (mediaItem) => {
+    setPreview(mediaItem.url);
+    setShowMediaSelector(false);
   };
 
   const handleSubmit = async (e) => {
@@ -73,11 +54,7 @@ const RoomForm = ({ room, onClose, onSuccess }) => {
       .filter(f => f);
     formData.append('features', JSON.stringify(featuresArray));
 
-    if (image) {
-      formData.append('image', image);
-    } else if (selectedGalleryUrl) {
-      formData.append('imageUrl', selectedGalleryUrl);
-    } else if (preview && isEdit) {
+    if (preview) {
       formData.append('imageUrl', preview);
     }
 
@@ -140,12 +117,8 @@ const RoomForm = ({ room, onClose, onSuccess }) => {
           <div className="form-group">
             <label>Room Image</label>
             <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
-              <input id="room-image" type="file" accept="image/*" onChange={handleImageChange} style={{ display: 'none' }} />
-              <button type="button" className="btn btn-outline" onClick={() => document.getElementById('room-image').click()}>
-                Upload File
-              </button>
-              <button type="button" className="btn btn-primary" onClick={() => setShowGallery(true)}>
-                Select from Gallery
+              <button type="button" className="btn btn-primary" onClick={() => setShowMediaSelector(true)}>
+                Select from Media Library
               </button>
             </div>
             {preview && (
@@ -162,10 +135,10 @@ const RoomForm = ({ room, onClose, onSuccess }) => {
         </form>
       </div>
 
-      {showGallery && (
-        <GallerySelector 
-          onClose={() => setShowGallery(false)}
-          onSelect={handleGallerySelect}
+      {showMediaSelector && (
+        <MediaSelector 
+          onClose={() => setShowMediaSelector(false)}
+          onSelect={handleMediaSelect}
         />
       )}
     </div>

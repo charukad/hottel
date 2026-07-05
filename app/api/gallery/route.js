@@ -34,22 +34,35 @@ export async function POST(req) {
     const image = await withTimeout(
       (async () => {
         await connectDB();
-        const formData = await req.formData();
         
-        const alt = formData.get('alt');
-        const order = formData.get('order');
-        const imageFile = formData.get('image');
+        // Handle both FormData (old way) and JSON (new Media Library way)
+        const contentType = req.headers.get('content-type') || '';
+        
+        let alt, order, imageUrl;
+
+        if (contentType.includes('application/json')) {
+          const body = await req.json();
+          alt = body.alt;
+          order = body.order;
+          imageUrl = body.imageUrl;
+          
+          if (!imageUrl) throw new Error('Image URL is required from Media Library');
+        } else {
+          const formData = await req.formData();
+          alt = formData.get('alt');
+          order = formData.get('order');
+          const imageFile = formData.get('image');
+
+          if (!imageFile || typeof imageFile === 'string') {
+            throw new Error('Image file is required');
+          }
+          imageUrl = await uploadFile(imageFile, 'gallery');
+        }
 
         if (!alt) {
           throw new Error('Image description (alt text) is required');
         }
 
-        if (!imageFile || typeof imageFile === 'string') {
-          throw new Error('Image file is required');
-        }
-
-        const imageUrl = await uploadFile(imageFile, 'gallery');
-        
         return Gallery.create({
           alt,
           imageUrl,

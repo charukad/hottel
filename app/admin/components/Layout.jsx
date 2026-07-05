@@ -75,6 +75,9 @@ const Layout = ({ children }) => {
           <Link href="/admin/activities" className={pathname.startsWith('/admin/activities') ? 'active' : ''}>
             Activities
           </Link>
+          <Link href="/admin/media" className={pathname.startsWith('/admin/media') ? 'active' : ''}>
+            Media Library
+          </Link>
           <Link href="/admin/gallery" className={pathname.startsWith('/admin/gallery') ? 'active' : ''}>
             Gallery
           </Link>

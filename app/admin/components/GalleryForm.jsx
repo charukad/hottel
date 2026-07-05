@@ -5,13 +5,15 @@ import toast from 'react-hot-toast';
 import api from '../api/axios';
 import '../styles/GalleryForm.css';
 
+import MediaSelector from './MediaSelector';
+
 const GalleryForm = ({ image, onClose, onSuccess }) => {
   const isEdit = !!image;
   const [form, setForm] = useState({
     alt: image?.alt || '',
     order: image?.order ?? 0,
   });
-  const [file, setFile] = useState(null);
+  const [showMediaSelector, setShowMediaSelector] = useState(false);
   const [preview, setPreview] = useState(image?.imageUrl || '');
   const [submitting, setSubmitting] = useState(false);
 
@@ -29,42 +31,37 @@ const GalleryForm = ({ image, onClose, onSuccess }) => {
     setForm({ ...form, [name]: name === 'order' ? Number(value) : value });
   };
 
-  const handleFileChange = (e) => {
-    const selected = e.target.files[0];
-    if (selected) {
-      // Revoke old blob URL before creating a new one
-      if (preview && preview.startsWith('blob:')) {
-        URL.revokeObjectURL(preview);
-      }
-      setFile(selected);
-      setPreview(URL.createObjectURL(selected));
+  const handleMediaSelect = (mediaItem) => {
+    setPreview(mediaItem.url);
+    if (!form.alt) {
+      setForm((prev) => ({ ...prev, alt: mediaItem.altText }));
     }
+    setShowMediaSelector(false);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!isEdit && !file) {
-      toast.error('Please select an image to upload');
+    if (!isEdit && !preview) {
+      toast.error('Please select an image from the Media Library');
       return;
     }
 
     setSubmitting(true);
 
-    const formData = new FormData();
-    formData.append('alt', form.alt);
-    formData.append('order', form.order);
-    if (file) formData.append('image', file);
-
     try {
       if (isEdit) {
-        await api.put(`/gallery/${image._id}`, formData, {
-          headers: { 'Content-Type': 'multipart/form-data' },
+        await api.put(`/gallery/${image._id}`, {
+          alt: form.alt,
+          order: form.order,
+          imageUrl: preview, // If changed
         });
         toast.success('Gallery image updated');
       } else {
-        await api.post('/gallery', formData, {
-          headers: { 'Content-Type': 'multipart/form-data' },
+        await api.post('/gallery', {
+          alt: form.alt,
+          order: form.order,
+          imageUrl: preview,
         });
         toast.success('Gallery image added');
       }
@@ -113,8 +110,16 @@ const GalleryForm = ({ image, onClose, onSuccess }) => {
           </div>
 
           <div className="form-group">
-            <label htmlFor="gallery-image">Image{isEdit ? ' (optional — leave empty to keep current)' : ''}</label>
-            <input id="gallery-image" type="file" accept="image/*" onChange={handleFileChange} />
+            <label>Image</label>
+            <div style={{ marginBottom: '1rem' }}>
+              <button 
+                type="button" 
+                className="btn btn-outline" 
+                onClick={() => setShowMediaSelector(true)}
+              >
+                Select from Media Library
+              </button>
+            </div>
             {preview && <img src={preview} alt="Preview" className="image-preview" />}
           </div>
 
@@ -128,6 +133,13 @@ const GalleryForm = ({ image, onClose, onSuccess }) => {
           </div>
         </form>
       </div>
+      
+      {showMediaSelector && (
+        <MediaSelector 
+          onSelect={handleMediaSelect} 
+          onClose={() => setShowMediaSelector(false)} 
+        />
+      )}
     </div>
   );
 };

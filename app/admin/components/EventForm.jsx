@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
 import api from '../api/axios';
-import GallerySelector from './GallerySelector';
+import MediaSelector from './MediaSelector';
 import '../styles/EventForm.css';
 
 const EventForm = ({ event, onClose, onSuccess }) => {
@@ -13,11 +13,9 @@ const EventForm = ({ event, onClose, onSuccess }) => {
     description: event?.description || '',
     date: event?.date ? new Date(event.date).toISOString().split('T')[0] : '',
   });
-  const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(event?.imageUrl || '');
   const [submitting, setSubmitting] = useState(false);
-  const [showGallery, setShowGallery] = useState(false);
-  const [selectedGalleryUrl, setSelectedGalleryUrl] = useState('');
+  const [showMediaSelector, setShowMediaSelector] = useState(false);
 
   // Clean up blob URLs to prevent memory leaks
   useEffect(() => {
@@ -32,26 +30,9 @@ const EventForm = ({ event, onClose, onSuccess }) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      if (preview && preview.startsWith('blob:')) {
-        URL.revokeObjectURL(preview);
-      }
-      setImage(file);
-      setSelectedGalleryUrl('');
-      setPreview(URL.createObjectURL(file));
-    }
-  };
-
-  const handleGallerySelect = (url) => {
-    if (preview && preview.startsWith('blob:')) {
-      URL.revokeObjectURL(preview);
-    }
-    setImage(null);
-    setSelectedGalleryUrl(url);
-    setPreview(url);
-    setShowGallery(false);
+  const handleMediaSelect = (mediaItem) => {
+    setPreview(mediaItem.url);
+    setShowMediaSelector(false);
   };
 
   const handleSubmit = async (e) => {
@@ -62,11 +43,7 @@ const EventForm = ({ event, onClose, onSuccess }) => {
     formData.append('title', form.title);
     formData.append('description', form.description);
     formData.append('date', form.date);
-    if (image) {
-      formData.append('image', image);
-    } else if (selectedGalleryUrl) {
-      formData.append('imageUrl', selectedGalleryUrl);
-    } else if (preview && isEdit) {
+    if (preview) {
       formData.append('imageUrl', preview);
     }
 
@@ -141,12 +118,8 @@ const EventForm = ({ event, onClose, onSuccess }) => {
           <div className="form-group">
             <label>Event Image</label>
             <div style={{ display: 'flex', gap: '10px', marginBottom: '10px' }}>
-              <input id="event-image" type="file" accept="image/*" onChange={handleImageChange} style={{ display: 'none' }} />
-              <button type="button" className="btn btn-outline" onClick={() => document.getElementById('event-image').click()}>
-                Upload File
-              </button>
-              <button type="button" className="btn btn-primary" onClick={() => setShowGallery(true)}>
-                Select from Gallery
+              <button type="button" className="btn btn-primary" onClick={() => setShowMediaSelector(true)}>
+                Select from Media Library
               </button>
             </div>
             {preview && (
@@ -165,10 +138,10 @@ const EventForm = ({ event, onClose, onSuccess }) => {
         </form>
       </div>
 
-      {showGallery && (
-        <GallerySelector 
-          onClose={() => setShowGallery(false)}
-          onSelect={handleGallerySelect}
+      {showMediaSelector && (
+        <MediaSelector 
+          onClose={() => setShowMediaSelector(false)}
+          onSelect={handleMediaSelect}
         />
       )}
     </div>
