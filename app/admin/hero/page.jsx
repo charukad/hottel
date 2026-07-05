@@ -191,7 +191,8 @@ export default function HeroPage() {
         </div>
             )
           )}
-
+        </>
+      )}
       {showForm && (
         <HeroForm
           slide={editingSlide}
