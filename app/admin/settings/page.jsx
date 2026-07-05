@@ -173,19 +173,19 @@ export default function SettingsPage() {
           <div className="form-grid">
             <div className="form-group">
               <label>Facebook URL</label>
-              <input type="url" name="socialFacebook" value={settings.socialFacebook || ''} onChange={handleChange} />
+              <input type="text" name="socialFacebook" value={settings.socialFacebook || ''} onChange={handleChange} />
             </div>
             <div className="form-group">
               <label>Instagram URL</label>
-              <input type="url" name="socialInstagram" value={settings.socialInstagram || ''} onChange={handleChange} />
+              <input type="text" name="socialInstagram" value={settings.socialInstagram || ''} onChange={handleChange} />
             </div>
             <div className="form-group">
               <label>TripAdvisor URL</label>
-              <input type="url" name="socialTripAdvisor" value={settings.socialTripAdvisor || ''} onChange={handleChange} />
+              <input type="text" name="socialTripAdvisor" value={settings.socialTripAdvisor || ''} onChange={handleChange} />
             </div>
             <div className="form-group">
               <label>WhatsApp Link</label>
-              <input type="url" name="socialWhatsapp" value={settings.socialWhatsapp || ''} onChange={handleChange} placeholder="https://wa.me/9477..." />
+              <input type="text" name="socialWhatsapp" value={settings.socialWhatsapp || ''} onChange={handleChange} placeholder="https://wa.me/9477..." />
             </div>
           </div>
         </section>
