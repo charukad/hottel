@@ -52,6 +52,8 @@ const GalleryItem = ({ item, index }) => {
 };
 
 const Gallery = ({ additionalImages = [] }) => {
+  const [showAll, setShowAll] = useState(false);
+
   const adminImages = additionalImages.map((image) => ({
     id: image._id,
     src: image.imageUrl,
@@ -59,6 +61,7 @@ const Gallery = ({ additionalImages = [] }) => {
   }));
 
   const galleryImages = [...fixedGalleryImages, ...adminImages];
+  const displayedImages = showAll ? galleryImages : galleryImages.slice(0, 6);
 
   return (
     <section id="gallery" className="gallery-section">
@@ -74,10 +77,23 @@ const Gallery = ({ additionalImages = [] }) => {
         </ScrollReveal>
 
         <div className="gallery-masonry">
-          {galleryImages.map((item, index) => (
+          {displayedImages.map((item, index) => (
             <GalleryItem key={item.id} item={item} index={index} />
           ))}
         </div>
+
+        {galleryImages.length > 6 && !showAll && (
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            style={{ textAlign: 'center', marginTop: '3rem' }}
+          >
+            <button className="btn btn-primary btn-arrow" onClick={() => setShowAll(true)}>
+              See More <span className="btn-icon">↓</span>
+            </button>
+          </motion.div>
+        )}
       </div>
     </section>
   );
