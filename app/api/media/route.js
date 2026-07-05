@@ -6,7 +6,7 @@ import { protect } from '@/lib/auth';
 import { uploadFile } from '@/lib/upload';
 import { withTimeout } from '@/lib/with-timeout';
 
-const API_TIMEOUT_MS = 15000;
+const API_TIMEOUT_MS = 60000;
 
 export async function GET() {
   try {
