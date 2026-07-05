@@ -109,15 +109,36 @@ export default function HeroPage() {
                 <option value="slider">Sliding Images</option>
                 <option value="video">Full Screen Video</option>
               </select>
-
               {settings?.heroMode === 'video' && (
-                <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
+                <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', flexWrap: 'wrap' }}>
                   <button className="btn btn-outline" onClick={() => setShowMediaSelector(true)}>
                     Select Video
                   </button>
                   {settings.heroVideoUrl && (
                     <span style={{ fontSize: '0.9rem', color: 'gray' }}>Video selected!</span>
                   )}
+                  
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginLeft: '1rem' }}>
+                    <label style={{ fontSize: '0.9rem' }}>Speed: {settings?.heroVideoSpeed || 1.0}x</label>
+                    <input 
+                      type="range" 
+                      min="0.1" 
+                      max="3.0" 
+                      step="0.1" 
+                      value={settings?.heroVideoSpeed || 1.0} 
+                      onChange={(e) => updateSetting('heroVideoSpeed', e.target.value)}
+                    />
+                  </div>
+                  
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginLeft: '1rem' }}>
+                    <input 
+                      type="checkbox" 
+                      id="pingPongCheck"
+                      checked={settings?.heroVideoPingPong || false} 
+                      onChange={(e) => updateSetting('heroVideoPingPong', e.target.checked)}
+                    />
+                    <label htmlFor="pingPongCheck" style={{ fontSize: '0.9rem' }}>Ping-Pong Loop (Forward & Back)</label>
+                  </div>
                 </div>
               )}
             </div>

@@ -50,7 +50,8 @@ export async function PUT(req) {
           'hotelName', 'tagline', 'description', 'primaryColor', 'secondaryColor',
           'contactEmail', 'contactPhone', 'contactAddress', 'googleMapsUrl',
           'socialFacebook', 'socialInstagram', 'socialTripAdvisor', 'socialWhatsapp',
-          'seoTitle', 'seoDescription', 'seoKeywords', 'heroMode', 'heroVideoUrl'
+          'seoTitle', 'seoDescription', 'seoKeywords', 'heroMode', 'heroVideoUrl',
+          'heroVideoSpeed', 'heroVideoPingPong'
         ];
 
         fields.forEach(field => {

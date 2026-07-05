@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import AnimatedText from './ui/AnimatedText';
@@ -56,15 +56,57 @@ const Hero = () => {
     setLoadedImages((prev) => ({ ...prev, [id]: true }));
   };
 
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    if (videoRef.current && settings?.heroMode === 'video') {
+      const vid = videoRef.current;
+      const speed = parseFloat(settings.heroVideoSpeed) || 1.0;
+      
+      // Initial playback rate
+      vid.playbackRate = speed;
+      
+      if (settings.heroVideoPingPong) {
+        // Custom ping pong loop
+        const handleTimeUpdate = () => {
+          // If playing forward and near the end
+          if (vid.playbackRate > 0 && vid.currentTime >= vid.duration - 0.1) {
+            vid.playbackRate = -speed;
+          } 
+          // If playing backward and near the start
+          else if (vid.playbackRate < 0 && vid.currentTime <= 0.1) {
+            vid.playbackRate = speed;
+          }
+        };
+        
+        vid.addEventListener('timeupdate', handleTimeUpdate);
+        
+        // Ensure play is called if it gets stuck
+        const handlePause = () => {
+          if (vid.currentTime > 0.1 && vid.currentTime < vid.duration - 0.1) {
+            vid.play().catch(e => console.log('Autoplay prevented', e));
+          }
+        };
+        vid.addEventListener('pause', handlePause);
+        
+        return () => {
+          vid.removeEventListener('timeupdate', handleTimeUpdate);
+          vid.removeEventListener('pause', handlePause);
+        };
+      }
+    }
+  }, [settings?.heroMode, settings?.heroVideoSpeed, settings?.heroVideoPingPong]);
+
   return (
     <section id="home" className="hero">
       {settings?.heroMode === 'video' && settings?.heroVideoUrl ? (
         <div className="hero-video-container" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0, overflow: 'hidden' }}>
           <motion.video
+            ref={videoRef}
             src={settings.heroVideoUrl}
             autoPlay
             muted
-            loop
+            loop={!settings.heroVideoPingPong}
             playsInline
             style={{ width: '100%', height: '100%', objectFit: 'cover', y: backgroundY }}
           />

@@ -1,12 +1,18 @@
-import mongoose from 'mongoose';
+require('dotenv').config({ path: '.env' });
+const mongoose = require('mongoose');
 
-const URI = process.env.MONGODB_URI;
-
-async function test() {
-  console.log('Starting connect...');
-  await mongoose.connect(URI);
-  console.log('Connected!');
-  process.exit(0);
+async function testDB() {
+  console.log('Connecting to DB...');
+  try {
+    await mongoose.connect(process.env.MONGODB_URI, {
+      serverSelectionTimeoutMS: 5000
+    });
+    console.log('Connected!');
+    process.exit(0);
+  } catch (err) {
+    console.error('Connection error:', err);
+    process.exit(1);
+  }
 }
 
-test();
+testDB();
