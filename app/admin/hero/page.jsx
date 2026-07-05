@@ -119,15 +119,25 @@ export default function HeroPage() {
                   )}
                   
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginLeft: '1rem' }}>
-                    <label style={{ fontSize: '0.9rem' }}>Speed: {settings?.heroVideoSpeed || 1.0}x</label>
+                    <label style={{ fontSize: '0.9rem', minWidth: '80px' }}>Speed: {Number(settings?.heroVideoSpeed || 1.0).toFixed(2)}x</label>
+                    <button 
+                      className="btn btn-outline btn-sm" 
+                      style={{ padding: '0.2rem 0.5rem', minWidth: '30px' }} 
+                      onClick={() => updateSetting('heroVideoSpeed', Math.max(0.1, (parseFloat(settings?.heroVideoSpeed || 1.0) - 0.05)).toFixed(2))}
+                    >-</button>
                     <input 
                       type="range" 
                       min="0.1" 
                       max="3.0" 
-                      step="0.1" 
+                      step="0.05" 
                       value={settings?.heroVideoSpeed || 1.0} 
                       onChange={(e) => updateSetting('heroVideoSpeed', e.target.value)}
                     />
+                    <button 
+                      className="btn btn-outline btn-sm" 
+                      style={{ padding: '0.2rem 0.5rem', minWidth: '30px' }} 
+                      onClick={() => updateSetting('heroVideoSpeed', Math.min(3.0, (parseFloat(settings?.heroVideoSpeed || 1.0) + 0.05)).toFixed(2))}
+                    >+</button>
                   </div>
                   
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginLeft: '1rem' }}>

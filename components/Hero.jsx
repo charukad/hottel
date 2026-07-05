@@ -69,17 +69,26 @@ const Hero = () => {
       if (settings.heroVideoPingPong) {
         // Custom ping pong loop
         const handleTimeUpdate = () => {
-          // If playing forward and near the end
+          // If playing forward and very close to the end
           if (vid.playbackRate > 0 && vid.currentTime >= vid.duration - 0.1) {
             vid.playbackRate = -speed;
+            vid.play().catch(e => console.log(e));
           } 
-          // If playing backward and near the start
+          // If playing backward and very close to the start
           else if (vid.playbackRate < 0 && vid.currentTime <= 0.1) {
             vid.playbackRate = speed;
+            vid.play().catch(e => console.log(e));
           }
         };
         
+        // When the video naturally ends, force it to reverse and play
+        const handleEnded = () => {
+          vid.playbackRate = -speed;
+          vid.play().catch(e => console.log(e));
+        };
+        
         vid.addEventListener('timeupdate', handleTimeUpdate);
+        vid.addEventListener('ended', handleEnded);
         
         // Ensure play is called if it gets stuck
         const handlePause = () => {
@@ -91,6 +100,7 @@ const Hero = () => {
         
         return () => {
           vid.removeEventListener('timeupdate', handleTimeUpdate);
+          vid.removeEventListener('ended', handleEnded);
           vid.removeEventListener('pause', handlePause);
         };
       }
