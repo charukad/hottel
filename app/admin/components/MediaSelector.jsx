@@ -35,18 +35,25 @@ export default function MediaSelector({ onSelect, onClose }) {
         ) : (
           <div className="media-grid" style={{ marginTop: '1rem', maxHeight: '50vh', overflowY: 'auto' }}>
             {media.length === 0 && <p>No media found. Go to the Media Library to upload some.</p>}
-            {media.map((item) => (
-              <div 
-                key={item._id} 
-                className="media-card" 
-                style={{ cursor: 'pointer' }}
-                onClick={() => onSelect(item)}
-              >
-                <div className="media-thumbnail">
-                  <img src={item.url} alt={item.altText} loading="lazy" />
+            {media.map((item) => {
+              const isVideo = item.url.match(/\.(mp4|webm|ogg)$/i);
+              return (
+                <div 
+                  key={item._id} 
+                  className="media-card" 
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => onSelect(item)}
+                >
+                  <div className="media-thumbnail">
+                    {isVideo ? (
+                      <video src={item.url} muted playsInline style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                    ) : (
+                      <img src={item.url} alt={item.altText} loading="lazy" />
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         )}
 

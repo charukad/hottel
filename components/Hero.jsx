@@ -58,8 +58,19 @@ const Hero = () => {
 
   return (
     <section id="home" className="hero">
-      {/* Background slides with parallax */}
-      <AnimatePresence mode="wait">
+      {settings?.heroMode === 'video' && settings?.heroVideoUrl ? (
+        <div className="hero-video-container" style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0, overflow: 'hidden' }}>
+          <motion.video
+            src={settings.heroVideoUrl}
+            autoPlay
+            muted
+            loop
+            playsInline
+            style={{ width: '100%', height: '100%', objectFit: 'cover', y: backgroundY }}
+          />
+        </div>
+      ) : (
+        <AnimatePresence mode="wait">
         {slides.map(
           (slide, index) =>
             index === current && (
@@ -92,7 +103,8 @@ const Hero = () => {
               </motion.div>
             )
         )}
-      </AnimatePresence>
+        </AnimatePresence>
+      )}
 
       {/* Gradient overlays */}
       <div className="hero-overlay" />
@@ -155,16 +167,18 @@ const Hero = () => {
       </motion.div>
 
       {/* Slide dots */}
-      <div className="hero-dots">
-        {slides.map((_, index) => (
-          <button
-            key={index}
-            className={`hero-dot ${index === current ? 'active' : ''}`}
-            onClick={() => setCurrent(index)}
-            aria-label={`Go to slide ${index + 1}`}
-          />
-        ))}
-      </div>
+      {settings?.heroMode !== 'video' && (
+        <div className="hero-dots">
+          {slides.map((_, index) => (
+            <button
+              key={index}
+              className={`hero-dot ${index === current ? 'active' : ''}`}
+              onClick={() => setCurrent(index)}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+        </div>
+      )}
 
       {/* Scroll indicator */}
       <motion.div
