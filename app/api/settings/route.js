@@ -51,7 +51,7 @@ export async function PUT(req) {
           'contactEmail', 'contactPhone', 'contactAddress', 'googleMapsUrl',
           'socialFacebook', 'socialInstagram', 'socialTripAdvisor', 'socialWhatsapp',
           'seoTitle', 'seoDescription', 'seoKeywords', 'heroMode', 'heroVideoUrl',
-          'heroVideoSpeed', 'heroVideoPingPong'
+          'heroVideoSpeed', 'heroVideoPingPong', 'showRoomPrices'
         ];
 
         fields.forEach(field => {

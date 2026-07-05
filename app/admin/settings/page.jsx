@@ -30,8 +30,8 @@ export default function SettingsPage() {
   }, []);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setSettings(prev => ({ ...prev, [name]: value }));
+    const { name, value, type, checked } = e.target;
+    setSettings(prev => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
   };
 
   const handleFileChange = (e, field, setPreview) => {
@@ -88,6 +88,20 @@ export default function SettingsPage() {
         <section className="settings-section card">
           <h2>Branding & Theme</h2>
           <div className="form-grid">
+            <div className="form-group full-width" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', background: '#f9f9f9', padding: '1rem', borderRadius: '8px', borderLeft: '4px solid var(--green-primary)' }}>
+              <input 
+                type="checkbox" 
+                id="showRoomPrices" 
+                name="showRoomPrices" 
+                checked={settings.showRoomPrices !== false} 
+                onChange={handleChange} 
+                style={{ width: '1.25rem', height: '1.25rem' }}
+              />
+              <label htmlFor="showRoomPrices" style={{ margin: 0, fontWeight: 'bold', fontSize: '1.05rem', cursor: 'pointer' }}>
+                Display Room Prices publicly on the website
+              </label>
+            </div>
+            
             <div className="form-group">
               <label>Hotel Name</label>
               <input type="text" name="hotelName" value={settings.hotelName || ''} onChange={handleChange} required />

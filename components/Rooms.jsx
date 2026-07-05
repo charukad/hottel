@@ -1,11 +1,13 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 import toast from 'react-hot-toast';
 import ScrollReveal from './ui/ScrollReveal';
 import GlassCard from './ui/GlassCard';
 import MagneticButton from './ui/MagneticButton';
+import api from '../lib/axios';
 import './Rooms.css';
 import './ui/GlassCard.css';
 
@@ -13,6 +15,12 @@ const formatPrice = (price) =>
   new Intl.NumberFormat('en-LK', { style: 'currency', currency: 'LKR', maximumFractionDigits: 0 }).format(price);
 
 const Rooms = ({ rooms = [] }) => {
+  const [settings, setSettings] = useState(null);
+  
+  useEffect(() => {
+    api.get('/settings').then(res => setSettings(res.data)).catch(() => {});
+  }, []);
+
   const handleBook = (roomName) => {
     toast.success(`Booking inquiry for ${roomName} — contact us via WhatsApp!`);
     document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
@@ -52,8 +60,8 @@ const Rooms = ({ rooms = [] }) => {
                       style={{ objectFit: 'cover' }}
                       unoptimized={true}
                       onError={(e) => {
-                        e.target.style.display = 'none';
-                        e.target.nextSibling.style.display = 'flex';
+                         e.target.style.display = 'none';
+                         e.target.nextSibling.style.display = 'flex';
                       }}
                     />
                   ) : null}
@@ -74,10 +82,12 @@ const Rooms = ({ rooms = [] }) => {
                     ))}
                   </ul>
                   <div className="room-footer">
-                    <span className="room-price">
-                      {formatPrice(room.price)}
-                      <small>/ night</small>
-                    </span>
+                    {settings?.showRoomPrices !== false && (
+                      <span className="room-price">
+                        {formatPrice(room.price)}
+                        <small>/ night</small>
+                      </span>
+                    )}
                     <MagneticButton
                       className="btn-primary"
                       onClick={() => handleBook(room.name)}
