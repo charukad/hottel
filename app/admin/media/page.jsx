@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from 'react';
-import api from '@/lib/axios';
+import api from '../api/axios';
 import '../styles/Media.css';
 
 export default function MediaDashboard() {
