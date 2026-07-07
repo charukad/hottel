@@ -133,6 +133,7 @@ const GalleryForm = ({ image, onClose, onSuccess }) => {
             </button>
           </div>
         </form>
+        </div>
       </div>
       
       {showMediaSelector && (

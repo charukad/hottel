@@ -142,6 +142,7 @@ const RoomForm = ({ room, onClose, onSuccess }) => {
             </button>
           </div>
         </form>
+        </div>
       </div>
       
       {showMediaSelector && (
