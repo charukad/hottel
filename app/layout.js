@@ -31,6 +31,10 @@ export async function generateMetadata() {
         openGraph: {
           title: config.seoTitle,
           description: config.seoDescription,
+        },
+        icons: {
+          icon: config.faviconUrl || '/favicon.ico',
+          apple: config.faviconUrl || '/apple-touch-icon.png',
         }
       };
     }
@@ -42,6 +46,10 @@ export async function generateMetadata() {
   return {
     title: 'Mountain Breeze Villa – Ella, Sri Lanka',
     description: 'Eco-friendly luxury stay in Ella, Sri Lanka. Peaceful mountain retreat surrounded by nature.',
+    icons: {
+      icon: '/favicon.ico',
+      apple: '/apple-touch-icon.png',
+    }
   };
 }
 
@@ -65,8 +73,13 @@ export default async function RootLayout({ children }) {
       <head>
         <style>{`
           :root {
-            --primary-color: ${primaryColor};
-            --secondary-color: ${secondaryColor};
+            --green-dark: ${primaryColor};
+            --forest-night: ${primaryColor};
+            --green-deep: ${primaryColor};
+            --emerald: ${secondaryColor};
+            --emerald-deep: ${secondaryColor};
+            --green-light: ${secondaryColor};
+            --green-soft: ${secondaryColor};
           }
         `}</style>
       </head>

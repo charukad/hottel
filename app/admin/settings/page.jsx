@@ -8,6 +8,20 @@ import '../styles/Settings.css';
 
 const MapPicker = dynamic(() => import('../components/MapPicker'), { ssr: false });
 
+const COLOR_PRESETS = [
+  { name: 'Mountain Forest (Current)', primary: '#2b4c3b', secondary: '#8fa87a' },
+  { name: 'Ocean Breeze', primary: '#1e3a8a', secondary: '#60a5fa' },
+  { name: 'Sunset Terra', primary: '#7c2d12', secondary: '#f6ad55' },
+  { name: 'Lavender Dream', primary: '#4c1d95', secondary: '#a78bfa' },
+  { name: 'Midnight Slate', primary: '#0f172a', secondary: '#64748b' },
+  { name: 'Ruby Elegance', primary: '#881337', secondary: '#fb7185' },
+  { name: 'Golden Sands', primary: '#713f12', secondary: '#fde047' },
+  { name: 'Teal Oasis', primary: '#134e4a', secondary: '#2dd4bf' },
+  { name: 'Classic Monochrome', primary: '#171717', secondary: '#a3a3a3' },
+  { name: 'Coral Reef', primary: '#9f1239', secondary: '#f43f5e' },
+  { name: 'Earthy Boho', primary: '#451a03', secondary: '#d97706' }
+];
+
 export default function SettingsPage() {
   const [settings, setSettings] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -140,6 +154,27 @@ export default function SettingsPage() {
                 <input type="color" name="secondaryColor" value={settings.secondaryColor || '#8fa87a'} onChange={handleChange} />
                 <span>{settings.secondaryColor || '#8fa87a'}</span>
               </div>
+            </div>
+
+            <div className="form-group full-width" style={{ marginTop: '0.5rem', marginBottom: '1.5rem' }}>
+              <label>Color Theme Presets</label>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem', marginTop: '0.5rem' }}>
+                {COLOR_PRESETS.map(preset => (
+                  <button
+                    key={preset.name}
+                    type="button"
+                    title={preset.name}
+                    onClick={() => setSettings(prev => ({ ...prev, primaryColor: preset.primary, secondaryColor: preset.secondary }))}
+                    style={{
+                      width: '40px', height: '40px', borderRadius: '50%', cursor: 'pointer',
+                      border: settings.primaryColor === preset.primary ? '2px solid #333' : '2px solid transparent',
+                      background: `linear-gradient(135deg, ${preset.primary} 50%, ${preset.secondary} 50%)`,
+                      boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
+                    }}
+                  />
+                ))}
+              </div>
+              <small className="help-text" style={{ marginTop: '0.5rem', display: 'block' }}>Click a preset circle to instantly apply a curated color theme.</small>
             </div>
 
             <div className="form-group">

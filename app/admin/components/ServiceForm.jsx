@@ -14,7 +14,7 @@ export default function ServiceForm({ service, onClose, onSuccess }) {
     icon: service?.icon || '',
     imageUrl: service?.imageUrl || '',
     order: service?.order || 0,
-    isActive: service !== undefined ? service.isActive : true
+    isActive: service ? service.isActive : true
   });
   
   const [imageFile, setImageFile] = useState(null);

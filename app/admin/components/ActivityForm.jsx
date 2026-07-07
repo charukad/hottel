@@ -13,7 +13,7 @@ export default function ActivityForm({ activity, onClose, onSuccess }) {
     title: activity?.title || '',
     description: activity?.description || '',
     order: activity?.order || 0,
-    isActive: activity !== undefined ? activity.isActive : true
+    isActive: activity ? activity.isActive : true
   });
   
   const [imageFile, setImageFile] = useState(null);

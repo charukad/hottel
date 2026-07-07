@@ -13,7 +13,7 @@ export default function HeroForm({ slide, onClose, onSuccess }) {
     title: slide?.title || '',
     subtitle: slide?.subtitle || '',
     order: slide?.order || 0,
-    isActive: slide !== undefined ? slide.isActive : true
+    isActive: slide ? slide.isActive : true
   });
   
   const [imageFile, setImageFile] = useState(null);

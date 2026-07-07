@@ -74,8 +74,9 @@ const GalleryForm = ({ image, onClose, onSuccess }) => {
   };
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content card" onClick={(e) => e.stopPropagation()}>
+    <>
+      <div className="modal-overlay" onClick={onClose}>
+        <div className="modal-content card" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           <h2>{isEdit ? 'Edit Gallery Image' : 'Add Gallery Image'}</h2>
           <button className="modal-close" onClick={onClose} aria-label="Close">
@@ -140,7 +141,7 @@ const GalleryForm = ({ image, onClose, onSuccess }) => {
           onClose={() => setShowMediaSelector(false)} 
         />
       )}
-    </div>
+    </>
   );
 };
 

@@ -79,8 +79,9 @@ const RoomForm = ({ room, onClose, onSuccess }) => {
   };
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content card" onClick={(e) => e.stopPropagation()}>
+    <>
+      <div className="modal-overlay" onClick={onClose}>
+        <div className="modal-content card" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           <h2>{isEdit ? 'Edit Room' : 'Create Room'}</h2>
           <button className="modal-close" onClick={onClose} aria-label="Close">
@@ -96,7 +97,15 @@ const RoomForm = ({ room, onClose, onSuccess }) => {
           
           <div className="form-group">
             <label htmlFor="room-type">Type</label>
-            <input id="room-type" name="type" value={form.type} onChange={handleChange} required placeholder="e.g. Deluxe Double" />
+            <select id="room-type" name="type" value={form.type} onChange={handleChange} required>
+              <option value="" disabled>Select Room Type</option>
+              <option value="Deluxe Double">Deluxe Double</option>
+              <option value="Superior">Superior</option>
+              <option value="Family">Family</option>
+              <option value="Standard">Standard</option>
+              <option value="Suite">Suite</option>
+              <option value="Cabana">Cabana</option>
+            </select>
           </div>
 
           <div className="form-group">
@@ -134,14 +143,14 @@ const RoomForm = ({ room, onClose, onSuccess }) => {
           </div>
         </form>
       </div>
-
+      
       {showMediaSelector && (
         <MediaSelector 
           onClose={() => setShowMediaSelector(false)}
           onSelect={handleMediaSelect}
         />
       )}
-    </div>
+    </>
   );
 };
 
