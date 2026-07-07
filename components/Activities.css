@@ -84,30 +84,45 @@
 }
 
 @media (max-width: 768px) {
+  .activities-scroll-container {
+    overflow-x: visible;
+    padding: 0 1rem;
+    scroll-snap-type: none;
+  }
+  
   .activities-track {
-    gap: 1rem;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    padding-bottom: 0;
   }
 
   .activity-card {
-    flex: 0 0 85vw;
-    max-width: 280px;
+    flex: none;
+    max-width: 100%;
+    margin-bottom: 0;
   }
 
   .activity-image {
-    height: 130px;
+    height: 120px;
   }
   
   .activity-overlay {
-    padding: 0.75rem 1rem;
+    padding: 0.5rem;
   }
 
   .activity-overlay h3 {
-    font-size: 1.25rem;
+    font-size: 1.1rem;
+    line-height: 1.2;
   }
   
   .activity-desc {
-    padding: 0.75rem 1rem;
-    font-size: 0.85rem;
-    line-height: 1.5;
+    padding: 0.75rem;
+    font-size: 0.8rem;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
   }
 }

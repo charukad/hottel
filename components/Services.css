@@ -60,13 +60,15 @@
 
 @media (max-width: 768px) {
   .services-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: 0.75rem;
   }
 
   .service-card {
-    width: calc(50% - 0.375rem);
-    flex: 0 0 calc(50% - 0.375rem);
-    padding: 1.5rem 1rem;
+    width: 100%;
+    flex: none;
+    padding: 1.25rem 0.5rem;
     aspect-ratio: auto;
     min-height: 140px;
   }

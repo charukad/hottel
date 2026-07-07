@@ -182,8 +182,13 @@ export default function SettingsPage() {
                 lng={settings.mapLng} 
                 onChange={handleLocationChange} 
               />
-              <small className="help-text" style={{ marginTop: '0.5rem', display: 'block' }}>We will automatically generate the Google Maps Embed URL for your website based on this pin.</small>
-              <input type="hidden" name="googleMapsUrl" value={settings.googleMapsUrl || ''} />
+              <small className="help-text" style={{ marginTop: '0.5rem', display: 'block' }}>Clicking the map will automatically generate a coordinate URL below.</small>
+            </div>
+            
+            <div className="form-group full-width">
+              <label>Google Maps Embed URL (Place Link Override)</label>
+              <input type="text" name="googleMapsUrl" value={settings.googleMapsUrl || ''} onChange={handleChange} placeholder="https://www.google.com/maps/embed?pb=..." />
+              <small className="help-text">If you want to show the full Google Place card instead of just a pin, paste the Google Maps Embed URL here. This will override the map pin on the public site.</small>
             </div>
           </div>
         </section>
