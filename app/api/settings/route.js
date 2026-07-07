@@ -48,7 +48,7 @@ export async function PUT(req) {
         const updates = {};
         const fields = [
           'hotelName', 'tagline', 'description', 'primaryColor', 'secondaryColor',
-          'contactEmail', 'contactPhone', 'contactAddress', 'googleMapsUrl',
+          'contactEmail', 'contactPhone', 'contactAddress', 'googleMapsUrl', 'mapLat', 'mapLng', 'googlePlaceShareLink',
           'socialFacebook', 'socialInstagram', 'socialTripAdvisor', 'socialWhatsapp',
           'seoTitle', 'seoDescription', 'seoKeywords', 'heroMode', 'heroVideoUrl',
           'heroVideoSpeed', 'heroVideoPingPong', 'showRoomPrices'
