@@ -68,8 +68,9 @@ const EventForm = ({ event, onClose, onSuccess }) => {
   };
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content card" onClick={(e) => e.stopPropagation()}>
+    <>
+      <div className="modal-overlay" onClick={onClose}>
+        <div className="modal-content card" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
           <h2>{isEdit ? 'Edit Event' : 'Create Event'}</h2>
           <button className="modal-close" onClick={onClose} aria-label="Close">
@@ -136,6 +137,7 @@ const EventForm = ({ event, onClose, onSuccess }) => {
             </button>
           </div>
         </form>
+        </div>
       </div>
 
       {showMediaSelector && (
@@ -144,7 +146,7 @@ const EventForm = ({ event, onClose, onSuccess }) => {
           onSelect={handleMediaSelect}
         />
       )}
-    </div>
+    </>
   );
 };
 
