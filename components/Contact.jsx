@@ -130,7 +130,7 @@ const Contact = () => {
                   <div style={{ position: 'relative', width: '100%', height: '280px', borderRadius: '16px', overflow: 'hidden' }}>
                     <iframe
                       title="Mountain Breeze Villa Location"
-                      src={settings.googleMapsUrl}
+                      src={settings.googleMapsUrl.includes('embed') ? settings.googleMapsUrl : `https://maps.google.com/maps?q=${settings.mapLat || 6.8741},${settings.mapLng || 81.0456}&hl=en&z=14&output=embed`}
                       width="100%"
                       height="100%"
                       style={{ border: 0 }}
