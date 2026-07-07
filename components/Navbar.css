@@ -142,8 +142,40 @@
   z-index: 998;
 }
 
+/* ─── Navbar Social Icons ─── */
+.navbar-social {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-right: 0.5rem;
+  border-right: 1px solid rgba(45, 90, 61, 0.15);
+  padding-right: 1rem;
+}
+
+.navbar-social a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--green-dark);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(45, 90, 61, 0.05);
+  transition: all 0.3s ease;
+}
+
+.navbar-social a:hover {
+  background: var(--emerald);
+  color: var(--forest-night);
+  transform: translateY(-2px);
+}
+
 /* ─── Mobile ─── */
 @media (max-width: 968px) {
+  .navbar-social {
+    display: none;
+  }
+
   .navbar {
     width: calc(100% - 1.5rem);
     top: 8px;

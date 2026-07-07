@@ -47,6 +47,15 @@
   gap: 2.5rem;
   flex-wrap: wrap;
   justify-content: center;
+  align-items: center;
+}
+
+.footer-nav {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
 }
 
 .footer-links a {
