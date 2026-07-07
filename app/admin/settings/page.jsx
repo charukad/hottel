@@ -188,7 +188,7 @@ export default function SettingsPage() {
             <div className="form-group full-width">
               <label>Google Maps Share Link</label>
               <input type="text" name="googlePlaceShareLink" value={settings.googlePlaceShareLink || ''} onChange={handleChange} placeholder="https://maps.app.goo.gl/..." />
-              <small className="help-text">Paste the short link from Google Maps (Share -> Copy Link). A button will appear on the map allowing users to open the location directly in the Google Maps app.</small>
+              <small className="help-text">Paste the short link from Google Maps (Share -&gt; Copy Link). A button will appear on the map allowing users to open the location directly in the Google Maps app.</small>
             </div>
           </div>
         </section>
