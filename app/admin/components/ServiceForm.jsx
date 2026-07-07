@@ -12,9 +12,13 @@ export default function ServiceForm({ service, onClose, onSuccess }) {
     title: service?.title || '',
     description: service?.description || '',
     icon: service?.icon || '',
+    imageUrl: service?.imageUrl || '',
     order: service?.order || 0,
     isActive: service !== undefined ? service.isActive : true
   });
+  
+  const [imageFile, setImageFile] = useState(null);
+  const [imagePreview, setImagePreview] = useState(service?.imageUrl || null);
   
   const [saving, setSaving] = useState(false);
 
@@ -35,12 +39,24 @@ export default function ServiceForm({ service, onClose, onSuccess }) {
 
     setSaving(true);
     
+    let finalImageUrl = formData.imageUrl;
+
     try {
+      if (imageFile) {
+        const uploadData = new FormData();
+        uploadData.append('image', imageFile);
+        uploadData.append('folder', 'services');
+        const { data: uploadRes } = await api.post('/media', uploadData);
+        finalImageUrl = uploadRes.url;
+      }
+
+      const payload = { ...formData, imageUrl: finalImageUrl };
+
       if (isEdit) {
-        await api.put(`/services/${service._id}`, formData);
+        await api.put(`/services/${service._id}`, payload);
         toast.success('Service updated');
       } else {
-        await api.post('/services', formData);
+        await api.post('/services', payload);
         toast.success('Service created');
       }
       onSuccess();
@@ -66,10 +82,28 @@ export default function ServiceForm({ service, onClose, onSuccess }) {
             <textarea name="description" value={formData.description} onChange={handleChange} rows="3" required />
           </div>
 
-          <div className="form-group">
-            <label>SVG Icon Code</label>
-            <textarea name="icon" value={formData.icon} onChange={handleChange} rows="3" placeholder="<svg>...</svg>" />
-            <small className="help-text">Paste the raw SVG HTML code here. You can find free SVG icons online.</small>
+          <div className="form-group row">
+            <div className="form-col">
+              <label>Service Image</label>
+              <input type="file" accept="image/*" onChange={(e) => {
+                const file = e.target.files[0];
+                if (file) {
+                  setImageFile(file);
+                  setImagePreview(URL.createObjectURL(file));
+                }
+              }} />
+              {imagePreview && (
+                <div style={{ marginTop: '0.5rem' }}>
+                  <img src={imagePreview} alt="Preview" style={{ width: '100px', height: '100px', objectFit: 'cover', borderRadius: '8px' }} />
+                  <button type="button" className="btn btn-sm" style={{ color: 'red', display: 'block', padding: 0 }} onClick={() => { setImageFile(null); setImagePreview(null); setFormData(p => ({...p, imageUrl: ''}))}}>Remove Image</button>
+                </div>
+              )}
+            </div>
+            <div className="form-col">
+              <label>OR SVG Icon Code</label>
+              <textarea name="icon" value={formData.icon} onChange={handleChange} rows="3" placeholder="<svg>...</svg>" />
+              <small className="help-text">Paste the raw SVG HTML code here. You can find free SVG icons online.</small>
+            </div>
           </div>
 
           <div className="form-group row">

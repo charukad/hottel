@@ -13,7 +13,7 @@ export default function ReviewForm({ review, onClose, onSuccess }) {
     text: review?.text || '',
     rating: review?.rating || 5,
     source: review?.source || 'Direct',
-    isActive: review !== undefined ? review.isActive : true
+    isActive: review != null ? review.isActive : true
   });
   
   const [saving, setSaving] = useState(false);

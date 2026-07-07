@@ -63,7 +63,13 @@ const Services = () => {
                 transition={{ duration: 0.6, delay: index * 0.1 }}
               >
                 <GlassCard className="service-card" tilt={true} glow={true}>
-                  <div className="service-icon" dangerouslySetInnerHTML={{ __html: service.icon }} />
+                  {service.imageUrl ? (
+                    <span className="service-icon">
+                      <img src={service.imageUrl} alt={service.title} style={{ width: '2.5rem', height: '2.5rem', objectFit: 'contain' }} />
+                    </span>
+                  ) : service.icon ? (
+                    <span className="service-icon" dangerouslySetInnerHTML={{ __html: service.icon }} />
+                  ) : null}
                   <h3>{service.title}</h3>
                   <p>{service.description}</p>
                 </GlassCard>

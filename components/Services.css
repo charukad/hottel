@@ -66,6 +66,8 @@
   .service-card {
     width: calc(50% - 0.375rem);
     flex: 0 0 calc(50% - 0.375rem);
-    padding: 1rem;
+    padding: 1.5rem 1rem;
+    aspect-ratio: auto;
+    min-height: 140px;
   }
 }

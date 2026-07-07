@@ -100,7 +100,9 @@ export default function ServicesPage() {
               {services.map((service) => (
                 <tr key={service._id} className={!service.isActive ? 'inactive-row' : ''}>
                   <td>
-                    {service.icon ? (
+                    {service.imageUrl ? (
+                      <img src={service.imageUrl} alt={service.title} style={{ width: '40px', height: '40px', objectFit: 'cover', borderRadius: '4px' }} />
+                    ) : service.icon ? (
                        <span className="icon-preview-box" dangerouslySetInnerHTML={{ __html: service.icon }} />
                     ) : (
                       <span className="no-image">No icon</span>
