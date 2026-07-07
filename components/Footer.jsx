@@ -65,7 +65,17 @@ const Footer = () => {
               <a href={settings.socialTripAdvisor} target="_blank" rel="noopener noreferrer">TripAdvisor</a>
             )}
             {hasSocial(settings?.socialWhatsapp) && (
-              <a href={settings.socialWhatsapp} target="_blank" rel="noopener noreferrer">WhatsApp</a>
+              <a 
+                href={
+                  settings.socialWhatsapp.startsWith('http') 
+                    ? settings.socialWhatsapp 
+                    : `https://wa.me/${settings.socialWhatsapp.replace(/[^0-9]/g, '')}`
+                } 
+                target="_blank" 
+                rel="noopener noreferrer"
+              >
+                WhatsApp
+              </a>
             )}
           </div>
         </motion.div>

@@ -4,12 +4,15 @@
 }
 
 .services-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   gap: 1rem;
 }
 
 .service-card {
+  width: 140px;
+  flex: 0 0 140px;
   padding: 1.5rem 1rem;
   text-align: center;
   transition: all 0.4s ease;
@@ -57,11 +60,12 @@
 
 @media (max-width: 768px) {
   .services-grid {
-    grid-template-columns: repeat(2, 1fr);
     gap: 0.75rem;
   }
 
   .service-card {
+    width: calc(50% - 0.375rem);
+    flex: 0 0 calc(50% - 0.375rem);
     padding: 1rem;
   }
 }

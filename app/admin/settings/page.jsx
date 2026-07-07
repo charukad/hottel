@@ -1,9 +1,12 @@
 "use client";
 
 import { useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
 import toast from 'react-hot-toast';
 import api from '../api/axios';
 import '../styles/Settings.css';
+
+const MapPicker = dynamic(() => import('../components/MapPicker'), { ssr: false });
 
 export default function SettingsPage() {
   const [settings, setSettings] = useState(null);
@@ -40,6 +43,15 @@ export default function SettingsPage() {
       setSettings(prev => ({ ...prev, [field]: file }));
       setPreview(URL.createObjectURL(file));
     }
+  };
+
+  const handleLocationChange = (lat, lng) => {
+    setSettings(prev => ({ 
+      ...prev, 
+      mapLat: lat, 
+      mapLng: lng,
+      googleMapsUrl: `https://maps.google.com/maps?q=${lat},${lng}&hl=en&z=14&output=embed`
+    }));
   };
 
   const handleSubmit = async (e) => {
@@ -160,9 +172,18 @@ export default function SettingsPage() {
               <input type="text" name="contactAddress" value={settings.contactAddress || ''} onChange={handleChange} required />
             </div>
             <div className="form-group full-width">
-              <label>Google Maps Embed URL</label>
-              <input type="url" name="googleMapsUrl" value={settings.googleMapsUrl || ''} onChange={handleChange} placeholder="https://www.google.com/maps/embed?pb=..." />
-              <small className="help-text">Go to Google Maps &gt; Share &gt; Embed a map &gt; Copy the URL inside the src="..." attribute.</small>
+              <label>Location Coordinates (Click map to drop pin)</label>
+              <div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
+                <input type="number" step="any" placeholder="Latitude" value={settings.mapLat || ''} readOnly style={{ flex: 1, backgroundColor: '#f0f0f0' }} />
+                <input type="number" step="any" placeholder="Longitude" value={settings.mapLng || ''} readOnly style={{ flex: 1, backgroundColor: '#f0f0f0' }} />
+              </div>
+              <MapPicker 
+                lat={settings.mapLat} 
+                lng={settings.mapLng} 
+                onChange={handleLocationChange} 
+              />
+              <small className="help-text" style={{ marginTop: '0.5rem', display: 'block' }}>We will automatically generate the Google Maps Embed URL for your website based on this pin.</small>
+              <input type="hidden" name="googleMapsUrl" value={settings.googleMapsUrl || ''} />
             </div>
           </div>
         </section>
@@ -184,8 +205,8 @@ export default function SettingsPage() {
               <input type="text" name="socialTripAdvisor" value={settings.socialTripAdvisor || ''} onChange={handleChange} />
             </div>
             <div className="form-group">
-              <label>WhatsApp Link</label>
-              <input type="text" name="socialWhatsapp" value={settings.socialWhatsapp || ''} onChange={handleChange} placeholder="https://wa.me/9477..." />
+              <label>WhatsApp Number</label>
+              <input type="text" name="socialWhatsapp" value={settings.socialWhatsapp || ''} onChange={handleChange} placeholder="+94740613192" />
             </div>
           </div>
         </section>

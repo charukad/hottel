@@ -7,12 +7,23 @@ import { withTimeout } from '@/lib/with-timeout';
 
 const API_TIMEOUT_MS = 15000;
 
-export async function GET() {
+export async function GET(req) {
   try {
+    const { searchParams } = new URL(req.url);
+    const isAdminReq = searchParams.get('admin') === 'true';
+    let query = { isActive: true };
+
+    if (isAdminReq) {
+      const auth = await protect(req);
+      if (!auth.error) {
+        query = {}; // Admin can see all reviews
+      }
+    }
+
     const reviews = await withTimeout(
       (async () => {
         await connectDB();
-        return Review.find({ isActive: true }).sort({ date: -1 });
+        return Review.find(query).sort({ date: -1 });
       })(),
       API_TIMEOUT_MS,
       'GET /api/reviews'

@@ -190,17 +190,33 @@ const Hero = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.8, duration: 0.6 }}
           >
-            {settings?.tagline || slides[current]?.subtitle || 'Eco-Friendly Mountain Retreat'}
+            {settings?.tagline || 'Eco-Friendly Mountain Retreat'}
           </motion.span>
 
           <AnimatedText
-            text={slides[current]?.title || settings?.hotelName || 'Mountain Breeze Villa'}
+            text={settings?.hotelName || 'Mountain Breeze Villa'}
             tag="h1"
             className="hero-title"
             splitBy="character"
             delay={1}
             stagger={0.03}
           />
+
+          <AnimatePresence mode="wait">
+            {slides[current]?.title && settings?.heroMode !== 'video' && (
+              <motion.h3
+                key={`title-${slides[current]._id}`}
+                className="hero-slide-title"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.6 }}
+                style={{ fontSize: '1.75rem', fontWeight: 300, marginBottom: '1.5rem', color: 'rgba(255,255,255,0.9)', fontStyle: 'italic' }}
+              >
+                {slides[current].title}
+              </motion.h3>
+            )}
+          </AnimatePresence>
 
           <motion.p
             className="hero-subtitle"
