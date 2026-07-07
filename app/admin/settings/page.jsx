@@ -186,9 +186,9 @@ export default function SettingsPage() {
             </div>
             
             <div className="form-group full-width">
-              <label>Google Maps Embed URL (Place Link Override)</label>
-              <input type="text" name="googleMapsUrl" value={settings.googleMapsUrl || ''} onChange={handleChange} placeholder="https://www.google.com/maps/embed?pb=..." />
-              <small className="help-text">If you want to show the full Google Place card instead of just a pin, paste the Google Maps Embed URL here. This will override the map pin on the public site.</small>
+              <label>Google Maps Share Link</label>
+              <input type="text" name="googlePlaceShareLink" value={settings.googlePlaceShareLink || ''} onChange={handleChange} placeholder="https://maps.app.goo.gl/..." />
+              <small className="help-text">Paste the short link from Google Maps (Share -> Copy Link). A button will appear on the map allowing users to open the location directly in the Google Maps app.</small>
             </div>
           </div>
         </section>

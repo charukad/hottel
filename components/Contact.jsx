@@ -127,16 +127,29 @@ const Contact = () => {
 
               <div className="contact-map glass-card">
                 {settings?.googleMapsUrl ? (
-                  <iframe
-                    title="Mountain Breeze Villa Location"
-                    src={settings.googleMapsUrl}
-                    width="100%"
-                    height="280"
-                    style={{ border: 0, borderRadius: '16px' }}
-                    allowFullScreen
-                    loading="lazy"
-                    referrerPolicy="strict-origin-when-cross-origin"
-                  />
+                  <div style={{ position: 'relative', width: '100%', height: '280px', borderRadius: '16px', overflow: 'hidden' }}>
+                    <iframe
+                      title="Mountain Breeze Villa Location"
+                      src={settings.googleMapsUrl}
+                      width="100%"
+                      height="100%"
+                      style={{ border: 0 }}
+                      allowFullScreen
+                      loading="lazy"
+                      referrerPolicy="strict-origin-when-cross-origin"
+                    />
+                    {settings?.googlePlaceShareLink && (
+                      <a 
+                        href={settings.googlePlaceShareLink} 
+                        target="_blank" 
+                        rel="noopener noreferrer" 
+                        className="btn btn-primary" 
+                        style={{ position: 'absolute', bottom: '1rem', right: '1rem', padding: '0.6rem 1.2rem', fontSize: '0.85rem', boxShadow: '0 4px 16px rgba(0,0,0,0.25)', zIndex: 10 }}
+                      >
+                        📍 Open in Google Maps
+                      </a>
+                    )}
+                  </div>
                 ) : (
                   <div style={{ height: '280px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: '#f5f5f5', borderRadius: '16px' }}>
                     <p>Map loading...</p>
